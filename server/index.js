@@ -113,7 +113,9 @@ app.use('/api/vendor', RefundRoute);
 app.use('/api/vendor', MassOrderRoute)
 
 
-
+app.get('/', (req, res) => {
+  res.send('Backend is running');
+});
 // ⚠️ 404 handler for unknown routes
 app.use((req, res, next) => {
   const error = new Error('API Not Found');
@@ -123,9 +125,7 @@ app.use((req, res, next) => {
 
 // ✅ Global error logging middleware
 app.use(errorLogger);
-app.get('/', (req, res) => {
-  res.send('Backend is running');
-});
+
 
 
 // ✅ Start server
