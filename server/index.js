@@ -48,7 +48,7 @@ if (mongoose.connection.readyState === 0) {
 }
 
 // ✅ CORS
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174', 'https://uhqsmm.temp2026.com'];
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -125,4 +125,9 @@ app.use((req, res, next) => {
 app.use(errorLogger);
 
 // ✅ Export the app for Vercel
-module.exports = app;
+// ✅ Start server
+// module.exports = app;
+
+app.listen(process.env.PORT || 5000, () => {
+  console.log(`Server running on port ${process.env.PORT || 5000}`);
+});
