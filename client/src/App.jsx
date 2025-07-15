@@ -115,7 +115,7 @@ const AppContent = () => {
       </Routes>
 
       {/* Admin routes */}
-      <AdminRoutes />
+      {/* <AdminRoutes /> */}
 
       {!showCornerImage && !is404Route && <Footer />}
       <ToastContainer />

@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 // Set Authorization token automatically from localStorage
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('adminAuthToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

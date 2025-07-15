@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import '../AdminPages/charts/ChartjsConfig';
 import '../AdminPages/css/style.css';
 import ThemeContext from '../AdminPages/utils/ThemeContext';
+
 import Dashboard from '../AdminPages/pages/Dashboard';
 import AddTicket from '../AdminPages/pages/AddTicket';
 import ServiceandCategories from '../AdminPages/pages/ServicesandCateogries';
@@ -26,23 +27,33 @@ import ViewTicketSupport from '../AdminPages/pages/ViewTicketSupport';
 import ViewRefillRequest from '../AdminPages/pages/ViewRefillRequest';
 import Login from '../AdminPages/pages/Login';
 
-
-
 const AdminRoutes = () => {
-  const [token, setToken] = useState(localStorage.getItem('authToken') || '');
+  const location = useLocation();
+  const [token, setToken] = useState(localStorage.getItem('adminAuthToken') || '');
+
+
+  console.log("TOKEN FOUND:", token);
+console.log("LOCATION PATH:", location.pathname);
 
   useEffect(() => {
-    localStorage.setItem('authToken', token);
+    localStorage.setItem('adminAuthToken', token);
   }, [token]);
 
-  return token === '' ? (
-    <Login setToken={setToken} />
-  ) : (
+  const isLoginPage = location.pathname === '/admin/login';
+
+  if (!token && !isLoginPage) {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  if (token && isLoginPage) {
+    return <Navigate to="/admin/dashboard" replace />;
+  }
+
+  return (
     <ThemeContext>
       <Routes>
-        <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
         <Route path="/admin/login" element={<Login setToken={setToken} />} />
-        <Route path="/admin/dashboard" element={<Dashboard  setToken={setToken}/>} />
+        <Route path="/admin/dashboard" element={<Dashboard setToken={setToken} />} />
         <Route path="/admin/manage-users" element={<ManageUsers />} />
         <Route path="/admin/user-detail/:id" element={<UserViewDetail />} />
         <Route path="/admin/orders-management" element={<ManageOrders />} />
@@ -64,7 +75,6 @@ const AdminRoutes = () => {
         <Route path="/admin/order-reports" element={<OrderReports />} />
         <Route path="/admin/security-logs" element={<SecurityLogs />} />
       </Routes>
-      {/* <ToastContainer /> */}
     </ThemeContext>
   );
 };
