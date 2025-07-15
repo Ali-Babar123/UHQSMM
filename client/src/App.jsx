@@ -74,7 +74,7 @@ const AppContent = () => {
         />
       )}
 
-      {!showCornerImage && !is404Route  && <Navbar />}
+      {!showCornerImage && !is404Route && <Navbar />}
 
       <Routes>
         {/* Frontend Routes */}
@@ -96,26 +96,25 @@ const AppContent = () => {
         <Route path="/vendor/add-service" element={<AddService />} />
         <Route path="/vendor/order-history" element={<OrderHistory />} />
         <Route path="/vendor/subscriptions" element={<Subscriptions />} />
-        <Route path="/vendor/vip-subscriptions" element={<VIPSubscription/>} />
-
+        <Route path="/vendor/vip-subscriptions" element={<VIPSubscription />} />
         <Route path="/vendor/refill-history" element={<RefillHistory />} />
         <Route path="/vendor/new-services" element={<Services />} />
         <Route path="/vendor/funds" element={<Funds />} />
-        <Route path="/vendor/report-issues" element={<ReportIssues/>} />
-        <Route path="/vendor/add-issues" element={<AddIssues/>} />
-
+        <Route path="/vendor/report-issues" element={<ReportIssues />} />
+        <Route path="/vendor/add-issues" element={<AddIssues />} />
         <Route path="/vendor/add-funds" element={<AddFunds />} />
         <Route path="/vendor/ticket-support" element={<TicketSupport />} />
         <Route path="/vendor/child-panel" element={<ChildPanel />} />
         <Route path="/vendor/refunds" element={<Refunds />} />
         <Route path="/vendor/api" element={<API />} />
         <Route path="/vendor/refer" element={<Affiliate />} />
-         <Route path="/admin/*" element={<AdminRoutes />} />
-        <Route path='*'  element={<NotFound/>} />
-      </Routes>
 
-      {/* Admin routes */}
-      {/* <AdminRoutes /> */}
+        {/* Admin Routes (mounted correctly) */}
+        <Route path="/admin/*" element={<AdminRoutes />} />
+
+        {/* 404 */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
 
       {!showCornerImage && !is404Route && <Footer />}
       <ToastContainer />
