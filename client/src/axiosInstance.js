@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://uhqsmm-backend-tan.vercel.app/api',
 });
 
 // Set Authorization token automatically from localStorage

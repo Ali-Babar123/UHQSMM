@@ -5,6 +5,7 @@ import Header from '../partials/Header';
 import Datepicker from '../components/Datepicker';
 import axios from '../../../axiosInstance'; // ✅ use axios instance with token
 import { toast } from 'react-toastify';
+import axiosInstance from '../../../axiosInstance';
 
 const RefillRequest = () => {
   const location = useLocation();
@@ -14,7 +15,7 @@ const RefillRequest = () => {
   useEffect(() => {
     const fetchAllUserOrders = async () => {
       try {
-        const usersRes = await axios.get('/auth/getUsers');
+        const usersRes = await axiosInstance.get('/auth/getUsers');
         const users = usersRes.data.users;
 
         const allOrders = [];

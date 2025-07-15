@@ -3,7 +3,7 @@ import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 import { useLocation, NavLink } from 'react-router-dom';
 import Datepicker from '../components/Datepicker';
-import axios from '../../../axiosInstance'; // ✅ import axios instance
+import axiosInstance from '../../../axiosInstance';
 
 const ReportsAndLogs = () => {
   const location = useLocation();
@@ -22,7 +22,7 @@ const ReportsAndLogs = () => {
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const res = await axios.get('/admin/getActivityLogs'); // Adjust if endpoint is different
+        const res = await axiosInstance.get('/admin/getActivityLogs'); // Adjust if endpoint is different
         setActivityData(res.data.logs || []);
       } catch (err) {
         console.error('Failed to fetch logs:', err);

@@ -6,7 +6,7 @@ import Dummy from '../images/Dummy.jpg';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import axios from '../../../axiosInstance';
+import axiosInstance from '../../../axiosInstance';
 
 const ManageOrders = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -15,14 +15,14 @@ const ManageOrders = () => {
   useEffect(() => {
     const fetchAllUserOrders = async () => {
       try {
-        const usersRes = await axios.get('/auth/getUsers');
+        const usersRes = await axiosInstance.get('/auth/getUsers');
         const users = usersRes.data.users;
 
         const allOrders = [];
 
         for (const user of users) {
           try {
-            const ordersRes = await axios.get(`/vendor/getOrders/${user._id}`);
+            const ordersRes = await axiosInstance.get(`/vendor/getOrders/${user._id}`);
             const userOrders = ordersRes.data.orders.map((order) => ({
               ...order,
               userName: user.name,
@@ -36,7 +36,7 @@ const ManageOrders = () => {
 
         // Fetch Mass Orders
         try {
-          const massRes = await axios.get('/vendor/getAllMassOrders');
+          const massRes = await axiosInstance.get('/vendor/getAllMassOrders');
           const massOrders = massRes.data.massOrders.map((order) => ({
             ...order,
             userName: order.user?.name || 'N/A',
@@ -75,7 +75,7 @@ const ManageOrders = () => {
         ? `/vendor/deleteMassOrder/${Id}`
         : `/vendor/deleteOrder/${Id}`;
 
-      await axios.delete(url);
+      await axiosInstance.delete(url);
       setOrders(orders.filter((order) => order._id !== Id));
       toast.success('Order deleted successfully!');
     } catch (err) {
@@ -90,7 +90,7 @@ const ManageOrders = () => {
         ? `/vendor/updateMassOrderStatus/${Id}`
         : `/vendor/updateOrder/${Id}`;
 
-      await axios.put(url, { status: newStatus });
+      await axiosInstance.put(url, { status: newStatus });
 
       const updatedOrders = orders.map((order) =>
         order._id === Id ? { ...order, status: newStatus } : order

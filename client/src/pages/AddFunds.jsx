@@ -22,7 +22,7 @@ const AddFunds = () => {
       const token = localStorage.getItem("authToken");
 
       const res = await axios.post(
-        "http://localhost:5000/api/funds/addFund",
+        "https://uhqsmm-backend-tan.vercel.app/api/funds/addFund",
         { method, amount },
         {
           headers: {

@@ -14,7 +14,7 @@ const AddFunds = () => {
     const fetchFunds = async () => {
       try {
         const token = localStorage.getItem("authToken");
-        const res = await axios.get("http://localhost:5000/api/funds/getAllFunds", {
+        const res = await axios.get("https://uhqsmm-backend-tan.vercel.app/api/funds/getAllFunds", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

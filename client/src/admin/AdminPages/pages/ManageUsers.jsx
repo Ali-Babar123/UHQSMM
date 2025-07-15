@@ -4,11 +4,11 @@ import Header from '../partials/Header';
 import { Link, useLocation } from 'react-router-dom';
 import Datepicker from '../components/Datepicker';
 import Dummy from '../images/Dummy.jpg';
-import axios from '../../../axiosInstance'
 import Swal from 'sweetalert2';
 
 
 import { toast } from 'react-toastify';
+import axiosInstance from '../../../axiosInstance';
 
 const ManageUsers = () => {
   const location = useLocation();
@@ -19,7 +19,7 @@ const ManageUsers = () => {
     const fetchUsers = async () => {
 
       try {
-        const res = await axios.get('http://localhost:5000/api/auth/getUsers');
+        const res = await axiosInstance.get('https://uhqsmm-backend-tan.vercel.app/api/auth/getUsers');
         setUsers(res.data.users);
       } catch (err) {
         console.error('Error fetching users:', err.response?.data || err.message);
@@ -45,7 +45,7 @@ const ManageUsers = () => {
 
 
     try {
-      await axios.delete(`/admin/userdetail/delete/${userId}`);
+      await axiosInstance.delete(`/admin/userdetail/delete/${userId}`);
 
       setUsers(users.filter((user) => user._id !== userId));
       toast.success('User deleted successfully!');
@@ -61,7 +61,7 @@ toast.error('Failed to delete user.');
   const handleStatusUpdate = async (userId, newStatus) => {
     try {
       const token = localStorage.getItem('authToken');
-      const res = await axios.put(
+      const res = await axiosInstance.put(
         `/admin/userdetail/update/${userId}/status`,
         { status: newStatus },
        

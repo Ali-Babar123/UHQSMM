@@ -28,7 +28,7 @@ function NewOrder() {
     const fetchCategories = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const res = await axios.get('http://localhost:5000/api/admin/getAllCategories', {
+        const res = await axios.get('https://uhqsmm-backend-tan.vercel.app/api/admin/getAllCategories', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -64,7 +64,7 @@ function NewOrder() {
   const fetchServices = async () => {
     try {
       const token = localStorage.getItem('authToken');
-      const res = await axios.get('http://localhost:5000/api/admin/getAllServices', {
+      const res = await axios.get('https://uhqsmm-backend-tan.vercel.app/api/admin/getAllServices', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -103,7 +103,7 @@ function NewOrder() {
 
     try {
       const token = localStorage.getItem('authToken');
-      const response = await axios.post('http://localhost:5000/api/vendor/newOrder', orderBody, {
+      const response = await axios.post('https://uhqsmm-backend-tan.vercel.app/api/vendor/newOrder', orderBody, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

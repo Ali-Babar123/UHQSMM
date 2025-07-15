@@ -26,7 +26,7 @@ const Affiliate = () => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const res = await axios.get('http://localhost:5000/api/auth/me', {
+        const res = await axios.get('https://uhqsmm-backend-tan.vercel.app/api/auth/me', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -55,7 +55,7 @@ const Affiliate = () => {
     try {
       const token = localStorage.getItem('authToken');
 
-      const response = await axios.post('http://localhost:5000/api/admin/addAffiliate', {
+      const response = await axios.post('https://uhqsmm-backend-tan.vercel.app/api/admin/addAffiliate', {
         referralLink,
         referralCode: user?.referralCode || '',
         referrals: user?.referrals || 0,

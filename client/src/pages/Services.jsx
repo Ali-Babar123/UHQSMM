@@ -20,7 +20,7 @@ const Services = () => {
     const fetchServices = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const res = await axios.get('http://localhost:5000/api/vendor/getAllServices', {
+        const res = await axios.get('https://uhqsmm-backend-tan.vercel.app/api/vendor/getAllServices', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

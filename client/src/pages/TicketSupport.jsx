@@ -64,7 +64,7 @@ const TicketSupport = () => {
       };
 
       const response = await axios.post(
-        'http://localhost:5000/api/vendor/addTicket',
+        'https://uhqsmm-backend-tan.vercel.app/api/vendor/addTicket',
         payload,
         {
           headers: {
@@ -267,7 +267,7 @@ const TicketSupport = () => {
 
               <button
                 type="submit"
-                className="lg:w-md w-full py-2 border border-violet-600 text-violet-600 rounded-4xl dark:gradient-border bg-violet-500 text-white dark:hover:text-white dark:hover:bg-violet-700 cursor-pointer transition"
+                className="lg:w-md w-full py-2 border border-violet-600 rounded-4xl dark:gradient-border bg-violet-500 text-white dark:hover:text-white dark:hover:bg-violet-700 cursor-pointer transition"
               >
                {loading ? 'Submitting...' : 'Submit Ticket'}
               </button>

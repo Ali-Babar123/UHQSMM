@@ -15,7 +15,7 @@ const OrderHistory = () => {
     const token = localStorage.getItem('authToken');
     const fetchOrders = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/vendor/getAllOrders', {
+        const res = await axios.get('https://uhqsmm-backend-tan.vercel.app/api/vendor/getAllOrders', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -34,7 +34,7 @@ const OrderHistory = () => {
   const handleStatusChange = async (id, newStatus) => {
     try {
       const token = localStorage.getItem('authToken');
-      await axios.put(`http://localhost:5000/api/vendor/updateOrderStatus/${id}`, { status: newStatus }, {
+      await axios.put(`https://uhqsmm-backend-tan.vercel.app/api/vendor/updateOrderStatus/${id}`, { status: newStatus }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
