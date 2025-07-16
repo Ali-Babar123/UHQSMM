@@ -49,11 +49,14 @@ const AdminLogin = ({ setToken }) => {
             </label>
             <input
               type="email"
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+              className="w-full px-4 py-2 border-gray-300 dark:border-gray-600 rounded-md  focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               placeholder="Enter email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              style={{color: 'black',
+                border: '1px solid gray'
+              }}
             />
           </div>
 
@@ -68,6 +71,9 @@ const AdminLogin = ({ setToken }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+               style={{color: 'black',
+                border: '1px solid gray'
+              }}
             />
           </div>
 
