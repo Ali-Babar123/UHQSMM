@@ -93,10 +93,52 @@ const deleteAffiliate = async (req, res) => {
   }
 };
 
+const updateAffiliateStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+
+  try {
+    const affiliate = await Affiliate.findById(id);
+    if (!affiliate) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    affiliate.status = status;
+    await affiliate.save();
+
+    res.status(200).json({ success: true, message: 'Order status updated', affiliate });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Failed to update status', error: err.message });
+  }
+};
+
+
+
+const getSingleAffiliate = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const affiliate = await Affiliate.findOne({ user: userId });
+
+    if (!affiliate) {
+      return res.status(404).json({ success: false, message: 'Affiliate not found for this user.' });
+    }
+
+    res.status(200).json({ success: true, affiliate });
+  } catch (error) {
+    console.error('Error fetching single affiliate:', error);
+    res.status(500).json({ success: false, message: 'Server error. Please try again later.' });
+  }
+};
+
+
 // Export all
 module.exports = {
   createAffiliate,
   getAllAffiliates,
   updateAffiliate,
-  deleteAffiliate
+  deleteAffiliate,
+  updateAffiliateStatus,
+  getSingleAffiliate
 };

@@ -20,7 +20,7 @@ const Refunds = () => {
 
   const fetchRefunds = async () => {
     try {
-      const res = await axios.get('https://uhqsmm-backend-tan.vercel.app/api/vendor/getAllRefunds', {
+      const res = await axios.get('http://localhost:5000/api/vendor/getAllRefunds', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -29,12 +29,15 @@ const Refunds = () => {
     } catch (err) {
       toast.error('Failed to fetch refunds');
     }
-  };
+  }
+useEffect(() => {
+  fetchRefunds();
+  const interval = setInterval(fetchRefunds, 10000); // Poll every 10s
+  return () => clearInterval(interval); // Clean up
+}, []);
 
-  useEffect(() => {
-    fetchRefunds();
-  }, []);
 
+ 
   const filteredRefunds = refunds.filter(refund =>
     refund.orderId?.toLowerCase().includes(search.toLowerCase())
   );
@@ -104,7 +107,7 @@ const Refunds = () => {
               className="w-full dark:text-gray-100 px-4 py-2"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{ paddingLeft: '40px' }}
+              style={{ paddingLeft: '40px', color:"gray" }}
             />
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-300"
@@ -162,7 +165,20 @@ const Refunds = () => {
                       <td className="px-4 py-2">{new Date(refund.createdAt).toLocaleDateString()}</td>
                       <td className="px-4 py-2">{refund.orderId}</td>
                       <td className="px-4 py-2">${refund.amount}</td>
-                      <td className="px-4 py-2">{refund.status}</td>
+                      <td className="px-4 py-2">
+  <span
+    className={`px-3 py-1 rounded-full text-xs font-semibold
+      ${refund.status === 'Approved' 
+        ? 'bg-green-200 text-green-800 dark:bg-green-600 dark:text-white'
+        : refund.status === 'Rejected' 
+        ? 'bg-red-200 text-red-800 dark:bg-red-600 dark:text-white'
+        : 'bg-yellow-200 text-yellow-800 dark:bg-yellow-600 dark:text-white'}
+    `}
+  >
+    {refund.status}
+  </span>
+</td>
+
                     </tr>
                   ))
                 )}

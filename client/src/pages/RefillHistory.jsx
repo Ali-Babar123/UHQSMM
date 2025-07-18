@@ -15,18 +15,22 @@ const RefillHistory = () => {
     const token = localStorage.getItem('authToken');
     const fetchOrders = async () => {
       try {
-        const res = await axios.get('https://uhqsmm-backend-tan.vercel.app/api/vendor/getAllOrders', {
+        const res = await axios.get('http://localhost:5000/api/vendor/getAllOrders', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         setOrders(res.data.orders);
+        console.log('Fetched vendor orders:', res.data.orders);
       } catch (err) {
         console.error('Error fetching orders:', err.message);
       }
     };
 
-    fetchOrders();
+     fetchOrders(); // Initial fetch
+  const interval = setInterval(fetchOrders, 10000); // Fetch every 10 seconds
+
+  return () => clearInterval(interval); // Clean up on unmoun
   }, []);
 
   const filteredOrders = orders.filter((order) =>
@@ -40,17 +44,17 @@ const RefillHistory = () => {
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-      <main className="grow-0">
-                <div className="px-4 sm:px-6 lg:px-4 py-4 w-full max-w-9xl mx-auto">
-                  <h1 className="text-gray-400 mb-1">Dashboard / Refill History</h1>
-                  <div className="mb-4 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
-                    <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-extralight mb-4 sm:mb-0">
-                      Refill History
-                    </h1>
-                    <Datepicker align="left" />
-                  </div>
-                </div>
-              </main>
+        <main className="grow-0">
+          <div className="px-4 sm:px-6 lg:px-4 py-4 w-full max-w-9xl mx-auto">
+            <h1 className="text-gray-400 mb-1">Dashboard / Refill History</h1>
+            <div className="mb-4 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
+              <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-extralight mb-4 sm:mb-0">
+                Refill History
+              </h1>
+              <Datepicker align="left" />
+            </div>
+          </div>
+        </main>
 
         {/* Search & Button */}
         <div className="p-4 mt-4 flex justify-between items-center">
@@ -61,7 +65,7 @@ const RefillHistory = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full dark:text-gray-100 px-4 py-2"
-              style={{ paddingLeft: '40px' }}
+              style={{ paddingLeft: '40px', color: "gray" }}
             />
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-300"
@@ -74,7 +78,7 @@ const RefillHistory = () => {
             </svg>
           </div>
 
-         
+
         </div>
 
         {/* Table */}
@@ -102,16 +106,16 @@ const RefillHistory = () => {
                       <td className="px-4 py-2">{order.serviceId?.name || 'N/A'}</td>
                       <td className="px-4 py-2">
                         <span
-                          className={`inline-block px-2 py-1 text-xs font-semibold rounded ${
-                            order.status === 'Approved'
+                          className={`inline-block px-2 py-1 text-xs font-semibold rounded-4xl ${order.status === 'Approved'
                               ? 'bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-100'
                               : order.status === 'Pending'
-                              ? 'bg-yellow-200 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100'
-                              : 'bg-red-200 text-red-800 dark:bg-red-700 dark:text-red-100'
-                          }`}
+                                ? 'bg-yellow-200 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100'
+                                : 'bg-red-200 text-red-800 dark:bg-red-700 dark:text-red-100'
+                            }`}
                         >
                           {order.status}
                         </span>
+
                       </td>
                     </tr>
                   ))

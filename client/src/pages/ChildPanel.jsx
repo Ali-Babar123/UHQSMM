@@ -158,7 +158,7 @@ const ChildPanel = () => {
                             <div>
                                 <label htmlFor="domain" className="block mb-2 font-semibold text-gray-900 dark:text-white">child_panels.form.domain</label>
                                 <input
-                                style={{ border: '1px solid rgba(0, 0, 0, 0.3)' }}
+                                style={{ border: '1px solid rgba(0, 0, 0, 0.3)', color:"gray" }}
                                     id="domain"
                                     type="text"
                                     value={domain}
@@ -206,7 +206,7 @@ const ChildPanel = () => {
                                 <label htmlFor="username" className="block mb-2 mt-4 font-semibold text-gray-900 dark:text-white">child_panels.form.username</label>
                                 <input
                                     id="username"
-                                    style={{ border: '1px solid rgba(0, 0, 0, 0.3)' }}
+                                    style={{ border: '1px solid rgba(0, 0, 0, 0.3)', color:"gray" }}
                                     type="text"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
@@ -219,7 +219,7 @@ const ChildPanel = () => {
                             <div>
                                 <label htmlFor="password" className="block mb-2 font-semibold text-gray-900 dark:text-white">child_panels.form.password</label>
                                 <input
-                                style={{ border: '1px solid rgba(0, 0, 0, 0.3)' }}
+                                style={{ border: '1px solid rgba(0, 0, 0, 0.3)', color:"gray" }}
                                     id="password"
                                     type="password"
                                     value={password}
@@ -234,7 +234,7 @@ const ChildPanel = () => {
                                 <label htmlFor="confirm" className="block mb-2 font-semibold text-gray-900 dark:text-white">child_panels.form.confirm</label>
                                 <input
                                     id="confirm"
-                                    style={{ border: '1px solid rgba(0, 0, 0, 0.3)' }}
+                                    style={{ border: '1px solid rgba(0, 0, 0, 0.3)', color:"gray" }}
                                     type="password"
                                     value={confirm}
                                     onChange={(e) => setConfirm(e.target.value)}
@@ -247,7 +247,7 @@ const ChildPanel = () => {
                             <div>
                                 <label htmlFor="price" className="block mb-2 font-semibold text-gray-900 dark:text-white">child_panels.form.price</label>
                                 <input
-                                style={{ border: '1px solid rgba(0, 0, 0, 0.3)' }}
+                                style={{ border: '1px solid rgba(0, 0, 0, 0.3)', color:"gray" }}
                                     id="price"
                                     type="text"
                                     value={`$ ${price}`}
@@ -260,7 +260,7 @@ const ChildPanel = () => {
                         {/* Submit Button */}
                         <button
                             type="submit"
-                            className="lg:w-md w-full mt-6 py-2 border border-violet-600 text-violet-600 rounded-4xl dark:gradient-border hover:bg-violet-500 hover:text-white dark:hover:text-white dark:hover:bg-violet-700 cursor-pointer transition"
+                            className="lg:w-md w-full mt-6 py-2 border border-violet-600 rounded-4xl dark:gradient-border bg-violet-500 text-white hover:text-white dark:hover:text-white dark:hover:bg-violet-700 cursor-pointer transition"
                         >
                             Submit Order
                         </button>

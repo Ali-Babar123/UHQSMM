@@ -121,6 +121,31 @@ const ManageOrders = () => {
           </div>
         </main>
 
+        <div className="p-4 flex justify-between items-center">
+          <div className="relative w-full text-black bg-white border-gray-300 border dark:bg-[rgba(37,33,57,1)]">
+            <input
+              type="search"
+              placeholder="Search"
+              className="w-full dark:text-gray-100 px-4 dark:bg-gray-900 py-3"
+              style={{ paddingLeft: '40px', color: "gray" }}
+
+            />
+            <svg
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </div>
+        </div>
+
         <div className="p-4">
           <div className="bg-white border border-gray-200 dark:bg-[rgba(37,33,57,1)] dark:border-gray-700 p-4 shadow-md overflow-x-auto">
             <div className="flex items-center justify-between px-2 mt-4 mb-4">
@@ -156,24 +181,26 @@ const ManageOrders = () => {
                       </a>
                     </td>
                     <td className="px-4 py-2">
-                      <span
-                        onClick={() =>
-                          handleStatusUpdate(
-                            order._id,
-                            order.status === 'Approved' ? 'Pending' : 'Approved',
-                            order.isMass // ✅ now accurate
-                          )
+                      <select
+                        value={order.status}
+                        onChange={(e) =>
+                          handleStatusUpdate(order._id, e.target.value, order.isMass)
                         }
-                        className={`inline-block px-2 py-1 text-xs font-semibold rounded cursor-pointer transition ${
-                          order.status === 'Approved'
-                            ? 'bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-100 hover:bg-green-300'
-                            : 'bg-yellow-200 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100 hover:bg-yellow-300'
-                        }`}
-                        title="Click to toggle status"
+                        className={`text-sm rounded border px-2 py-1 w-32 text-center focus:outline-none
+      ${order.status === 'Approved'
+                            ? 'bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-100'
+                            : order.status === 'Pending'
+                              ? 'bg-yellow-200 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100'
+                              : 'bg-red-200 text-red-800 dark:bg-red-700 dark:text-red-100'
+                          }
+    `}
                       >
-                        {order.status || 'Pending'}
-                      </span>
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Cancel">Cancel</option>
+                      </select>
                     </td>
+
                     <td className="px-4 py-2 space-x-2">
                       <Link to={`/admin/order-detail/${order._id}`}>
                         <button title="View" className="text-blue-600 cursor-pointer hover:text-blue-800">

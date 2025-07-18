@@ -15,8 +15,11 @@ const affiliateSchema = new mongoose.Schema({
     type: String,
     enum: ['Processing', 'Completed'],
     default: 'Processing'
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
-} , {timestamps: true}
-);
+}, { timestamps: true });
 
 module.exports = mongoose.model('Affiliate', affiliateSchema);

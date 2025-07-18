@@ -4,6 +4,7 @@ import Header from '../partials/Header';
 
 import Datepicker from '../components/Datepicker';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 const plans = [
   {
     title: 'Current Plan',
@@ -61,44 +62,44 @@ const VIPSubscription = () => {
 
 
 
- const handleSubscribe = async (plan) => {
-  try {
-    const token = localStorage.getItem('authToken');
-    const response = await axios.post(
-      'https://uhqsmm-backend-tan.vercel.app/api/vendor/addSubscription',
-      {
-        name: plan.title.replace(' plan', '').trim(),
-        price: parseFloat(plan.price.replace(/[^0-9.]/g, '')),
-        billingCycle: 'annually',
-        features: plan.features.join(', '),
-        discount:
-          plan.title.includes('Basic') ? 10 :
-          plan.title.includes('Pro') ? 15 :
-          plan.title.includes('Elite') ? 25 : 0,
-        depositBonus:
-          plan.title.includes('Basic') ? 1 :
-          plan.title.includes('Pro') ? 2 :
-          plan.title.includes('Elite') ? 3 : 0,
-        isMostPopular: !!plan.highlight,
-        // 🚫 No more serviceId
-      },
-      {
-       headers: {
-          Authorization: `Bearer ${token}`,
+  const handleSubscribe = async (plan) => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await axios.post(
+        'https://uhqsmm-backend-tan.vercel.app/api/vendor/addSubscription',
+        {
+          name: plan.title.replace(' plan', '').trim(),
+          price: parseFloat(plan.price.replace(/[^0-9.]/g, '')),
+          billingCycle: 'annually',
+          features: plan.features.join(', '),
+          discount:
+            plan.title.includes('Basic') ? 10 :
+              plan.title.includes('Pro') ? 15 :
+                plan.title.includes('Elite') ? 25 : 0,
+          depositBonus:
+            plan.title.includes('Basic') ? 1 :
+              plan.title.includes('Pro') ? 2 :
+                plan.title.includes('Elite') ? 3 : 0,
+          isMostPopular: !!plan.highlight,
+          // 🚫 No more serviceId
         },
-      }
-    );
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    if (response.data.success) {
-      alert('Subscribed successfully!');
-    } else {
-      alert('Failed to subscribe.');
+      if (response.data.success) {
+        toast.success('Subscribed successfully!');
+      } else {
+        toast.error('Failed to subscribe.');
+      }
+    } catch (error) {
+      console.error('Error while subscribing:', error.message);
+      toast.error('Something went wrong.');
     }
-  } catch (error) {
-    console.error('Error while subscribing:', error.message);
-    alert('Something went wrong.');
-  }
-};
+  };
 
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-[var(--color-dark-gray)]">
@@ -109,16 +110,16 @@ const VIPSubscription = () => {
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main className="grow-0">
-                  <div className="px-4 sm:px-6 lg:px-4 py-4 w-full max-w-9xl mx-auto">
-                    <h1 className="text-gray-400 mb-1">Dashboard / VIP Subscription</h1>
-                    <div className="mb-4 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
-                      <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-extralight mb-4 sm:mb-0">
-                        VIP Subscription
-                      </h1>
-                      <Datepicker align="left" />
-                    </div>
-                  </div>
-                </main>
+          <div className="px-4 sm:px-6 lg:px-4 py-4 w-full max-w-9xl mx-auto">
+            <h1 className="text-gray-400 mb-1">Dashboard / VIP Subscription</h1>
+            <div className="mb-4 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
+              <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-extralight mb-4 sm:mb-0">
+                VIP Subscription
+              </h1>
+              <Datepicker align="left" />
+            </div>
+          </div>
+        </main>
 
         <div className="px-4 py-6">
           <div className="px-6 py-10 text-gray-800 dark:text-white 
@@ -141,9 +142,20 @@ const VIPSubscription = () => {
                       Subscribe now to start enjoying member benefits.
                     </p>
                   </div>
-                  <button   onClick={() => handleSubscribe(plan)} className="w-full py-2 border border-fuchsia-600 text-fuchsia-600 dark:text-white rounded-full hover:bg-fuchsia-600 hover:text-white transition">
+                  <button
+                    onClick={() =>
+                      handleSubscribe({
+                        title: 'Basic',
+                        price: '$0',
+                        features: ['Subscribe now to start enjoying member benefits.'],
+                        highlight: false,
+                      })
+                    }
+                    className="w-full py-2 border border-fuchsia-600 text-fuchsia-600 dark:text-white rounded-full hover:bg-fuchsia-600 hover:text-white transition"
+                  >
                     Active Now
                   </button>
+
                 </div>
               </div>
 

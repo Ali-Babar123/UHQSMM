@@ -14,7 +14,7 @@ const ReportIssues = () => {
         const fetchIssues = async () => {
             try {
                 const token = localStorage.getItem("authToken");
-                const res = await axios.get("https://uhqsmm-backend-tan.vercel.app/api/admin/getAllIssues", {
+                const res = await axios.get("http://localhost:5000/api/admin/getAllIssues", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -36,16 +36,16 @@ const ReportIssues = () => {
                 <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
                 <main className="grow-0">
-                          <div className="px-4 sm:px-6 lg:px-4 py-4 w-full max-w-9xl mx-auto">
-                            <h1 className="text-gray-400 mb-1">Dashboard / Report Issues</h1>
-                            <div className="mb-4 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
-                              <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-extralight mb-4 sm:mb-0">
+                    <div className="px-4 sm:px-6 lg:px-4 py-4 w-full max-w-9xl mx-auto">
+                        <h1 className="text-gray-400 mb-1">Dashboard / Report Issues</h1>
+                        <div className="mb-4 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
+                            <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-extralight mb-4 sm:mb-0">
                                 Report Issues
-                              </h1>
-                              <Datepicker align="left" />
-                            </div>
-                          </div>
-                        </main>
+                            </h1>
+                            <Datepicker align="left" />
+                        </div>
+                    </div>
+                </main>
                 {/* Search and Add Button */}
                 <div className="p-4 flex justify-between items-center">
                     <div className="relative w-full max-w-md text-black bg-white border-gray-300 border dark:bg-[rgba(37,33,57,1)]">
@@ -53,7 +53,7 @@ const ReportIssues = () => {
                             type="search"
                             placeholder="Search"
                             className="w-full dark:text-gray-100 px-4 py-2"
-                            style={{ paddingLeft: '40px' }}
+                            style={{ paddingLeft: '40px', color: "gray" }}
                         />
                         <svg
                             className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-300"
@@ -94,9 +94,8 @@ const ReportIssues = () => {
                                     <th className="px-4 py-3">#</th>
                                     <th className="px-4 py-3">Date</th>
                                     <th className="px-4 py-3">Issue Type</th>
-                                    <th className="px-4 py-3">Service</th>
+                                    
                                     <th className="px-4 py-3">Status</th>
-                                    <th className="px-4 py-3">Description</th>
                                 </tr>
                             </thead>
                             <tbody className="text-gray-500 dark:text-gray-400 divide-y divide-gray-200 dark:divide-gray-700">
@@ -106,9 +105,24 @@ const ReportIssues = () => {
                                             <td className="px-4 py-2">{index + 1}</td>
                                             <td className="px-4 py-2">{new Date(issue.dateTime).toLocaleDateString()}</td>
                                             <td className="px-4 py-2">{issue.issueType}</td>
-                                            <td className="px-4 py-2">{issue.service || "N/A"}</td>
-                                            <td className="px-4 py-2">{issue.serviceStatus}</td>
-                                            <td className="px-4 py-2">{issue.description || "N/A"}</td>
+                                           
+                                            <td className="px-4 py-2">
+                                                <span
+                                                    className={`px-2 py-1 rounded text-xs font-medium
+      ${issue.serviceStatus === "Pending"
+                                                            ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                                                            : issue.serviceStatus === "Approved"
+                                                                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                                                                : issue.serviceStatus === "Blocked"
+                                                                    ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                                                                    : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
+                                                        }`}
+                                                >
+                                                    {issue.serviceStatus}
+                                                </span>
+                                            </td>
+
+
                                         </tr>
                                     ))
                                 ) : (

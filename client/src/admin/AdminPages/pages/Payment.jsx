@@ -4,24 +4,45 @@ import Header from '../partials/Header';
 import { useLocation } from 'react-router-dom';
 import Datepicker from '../components/Datepicker';
 import axiosInstance from '../../../axiosInstance';
+import { toast } from 'react-toastify';
 
 const Payment = () => {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [funds, setFunds] = useState([]);
 
- useEffect(() => {
-  const fetchFunds = async () => {
-    try {
-      const res = await axiosInstance.get('/funds/getAllFunds');
-      setFunds(res.data); // No need to filter manually
-    } catch (error) {
-      console.error('Error fetching funds:', error);
-    }
-  };
+  useEffect(() => {
+    const fetchFunds = async () => {
+      try {
+        const res = await axiosInstance.get('/funds/getAllFunds');
+        setFunds(res.data); // No need to filter manually
+      } catch (error) {
+        console.error('Error fetching funds:', error);
+      }
+    };
 
-  fetchFunds();
-}, []);
+    fetchFunds();
+  }, []);
+
+  const handleStatusChange = async (id, newStatus) => {
+  try {
+    await axiosInstance.put(`/funds/updateFundStatus/${id}`, { status: newStatus });
+
+    // Update local state to reflect change
+    setFunds((prevFunds) =>
+      prevFunds.map((fund) =>
+        fund._id === id ? { ...fund, status: newStatus } : fund
+      )
+    );
+    toast.success('Funds Updated Successfully')
+  } catch (error) {
+    console.error('Failed to update status:', error);
+    toast.error('Error updating status');
+  }
+};
+
+
+
 
 
   return (
@@ -50,7 +71,7 @@ const Payment = () => {
               type="search"
               placeholder="Search"
               className="w-full dark:text-gray-100 px-4 dark:bg-gray-900 py-3"
-              style={{ paddingLeft: '40px' }}
+              style={{ paddingLeft: '40px', color: "gray" }}
             />
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-300"
@@ -116,13 +137,26 @@ const Payment = () => {
                       </a>
                     </td>
                     <td className="px-4 py-2">
-                      {fund.createAt ? new Date(fund.createAt).toLocaleDateString() : 'N/A'}
+                      {fund.createdAt ? new Date(fund.createdAt).toLocaleDateString() : 'N/A'}
                     </td>
                     <td className="px-4 py-2">
-                      <span className="inline-block px-2 py-1 text-xs font-semibold rounded bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-100">
-                        Success
-                      </span>
+                      <select
+                        value={fund.status}
+                        onChange={(e) => handleStatusChange(fund._id, e.target.value)}
+                        className={`px-6 py-1 rounded text-xs font-semibold
+      ${fund.status === 'Approved' ? 'bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-100' :
+                            fund.status === 'Pending' ? 'bg-yellow-200 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100' :
+                              fund.status === 'Refunded' ? 'bg-blue-200 text-blue-800 dark:bg-blue-700 dark:text-blue-100' :
+                                'bg-red-200 text-red-800 dark:bg-red-700 dark:text-red-100'}
+    `}
+                      >
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Cancel">Cancel</option>
+                        <option value="Refunded">Refunded</option>
+                      </select>
                     </td>
+
                   </tr>
                 ))}
                 {funds.length === 0 && (

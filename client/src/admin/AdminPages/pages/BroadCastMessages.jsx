@@ -13,6 +13,9 @@ const BroadCastMessages = () => {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editId, setEditId] = useState(null);
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -20,34 +23,46 @@ const BroadCastMessages = () => {
     users: ''
   });
 
- const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([]);
 
 
 
   const fetchMessages = async () => {
-  try {
-    const res = await axiosInstance.get('/admin/getAllMessages');
-    if (res.data.success) {
-      setMessages(res.data.messages);
+    try {
+      const res = await axiosInstance.get('/admin/getAllMessages');
+      if (res.data.success) {
+        setMessages(res.data.messages);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to fetch messages');
     }
-  } catch (error) {
-    console.error(error);
-    toast.error('Failed to fetch messages');
-  }
-};
-useEffect(() => {
-  (async () => {
-    await fetchMessages();
-  })();
-}, []);
+  };
+  useEffect(() => {
+    (async () => {
+      await fetchMessages();
+    })();
+  }, []);
 
-  
+  const handleEditClick = (msg) => {
+    setIsEdit(true);
+    setEditId(msg._id);
+    setFormData({
+      title: msg.title,
+      description: msg.description,
+      audience: msg.audience,
+      users: msg.users,
+    });
+    setShowModal(true);
+  };
+
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSendMessage = async () => {
+const handleSendMessage = async () => {
   const { title, description, audience, users } = formData;
 
   if (!title || !description || !audience || !users) {
@@ -56,15 +71,27 @@ useEffect(() => {
   }
 
   try {
-    const res = await axiosInstance.post('/admin/addMessage', formData);
-    if (res.data.success) {
-      toast.success('Message sent successfully');
-      setShowModal(false);
-      setFormData({ title: '', description: '', audience: '', users: '' });
-      await fetchMessages(); // ✅ Refresh messages
+    if (isEdit) {
+      const res = await axiosInstance.put(`/admin/updateMessage/${editId}`, formData);
+      if (res.data.success) {
+        toast.success('Message updated successfully');
+      } else {
+        toast.error(res.data.message || 'Failed to update message');
+      }
     } else {
-      toast.error(res.data.message || 'Failed to send message');
+      const res = await axiosInstance.post('/admin/addMessage', formData);
+      if (res.data.success) {
+        toast.success('Message sent successfully');
+      } else {
+        toast.error(res.data.message || 'Failed to send message');
+      }
     }
+
+    setShowModal(false);
+    setFormData({ title: '', description: '', audience: '', users: '' });
+    setIsEdit(false);
+    setEditId(null);
+    await fetchMessages();
   } catch (error) {
     console.error(error);
     toast.error('Something went wrong');
@@ -72,32 +99,34 @@ useEffect(() => {
 };
 
 
+
+
   const handleDeleteMessage = async (id) => {
-        const result = await Swal.fire({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!',
-        });
-      
-        if (!result.isConfirmed) return;
-    
-      try {
-        const res = await axiosInstance.delete(`/admin/deleteMessage/${id}`);
-        if (res.data.success) {
-          setMessages((prev) => prev.filter((item) => item._id !== id));
-          toast.success('Message deleted successfully');
-        } else {
-          toast.error(res.data.message || 'Failed to delete Message');
-        }
-      } catch (error) {
-        console.error('Failed to delete Message:', error.message);
-        toast.error('Error deleting Child Panel');
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const res = await axiosInstance.delete(`/admin/deleteMessage/${id}`);
+      if (res.data.success) {
+        setMessages((prev) => prev.filter((item) => item._id !== id));
+        toast.success('Message deleted successfully');
+      } else {
+        toast.error(res.data.message || 'Failed to delete Message');
       }
-    };
+    } catch (error) {
+      console.error('Failed to delete Message:', error.message);
+      toast.error('Error deleting Child Panel');
+    }
+  };
 
 
 
@@ -126,7 +155,7 @@ useEffect(() => {
               type="search"
               placeholder="Search"
               className="w-full dark:text-gray-100 px-4 dark:bg-gray-900 py-3"
-              style={{ paddingLeft: '40px' }}
+              style={{ paddingLeft: '40px', color: "gray" }}
             />
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-300"
@@ -143,7 +172,12 @@ useEffect(() => {
         {/* Add New Message Button */}
         <div className="p-4 flex lg:justify-end justify-start items-center">
           <button
-            onClick={() => setShowModal(true)}
+            onClick={() => {
+    setFormData({ title: '', description: '', audience: '', users: '' }); // ✅ Clear form
+    setIsEdit(false);  // ✅ Make sure it's not in edit mode
+    setEditId(null);   // ✅ Clear the editId
+    setShowModal(true); // ✅ Open modal
+  }}
             className="px-9 py-3 cursor-pointer text-gray-900 dark:text-white border-gray-400 rounded-4xl transition flex items-center space-x-2 gradient-border-dark"
             style={{
               background: 'linear-gradient(354.17deg, #7129FF 3.91%, #FD00E3 72.59%)',
@@ -172,7 +206,7 @@ useEffect(() => {
               </button>
             </div>
 
-              <table className="min-w-full text-left text-sm">
+            <table className="min-w-full text-left text-sm">
               <thead className="border-b border-gray-200 dark:border-gray-700 dark:bg-gray-900 text-gray-700 dark:text-gray-200 uppercase">
                 <tr>
                   <th className="px-4 py-3">ID</th>
@@ -194,9 +228,10 @@ useEffect(() => {
                     <td className="px-4 py-2">{msg.description}</td>
                     <td className="px-4 py-2">{new Date(msg.createdAt).toLocaleDateString()}</td>
                     <td className="px-4 py-2 flex items-center space-x-3">
-                      <button className="text-green-500 hover:text-green-700">
+                      <button className="text-green-500 hover:text-green-700" onClick={() => handleEditClick(msg)}>
                         <FiEdit className="w-4 h-4" />
                       </button>
+
                       <button className="text-red-500 hover:text-red-700" onClick={() => handleDeleteMessage(msg._id)}>
                         <FiTrash2 className="w-4 h-4" />
                       </button>

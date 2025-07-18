@@ -13,7 +13,12 @@ const fundSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    createAt: {
+    status:{
+        type: String,
+        enum: ['Pending', 'Approved', 'Cancel', 'Refunded'],
+        default: 'Pending',
+    },
+    createdAt: {
         type: Date,
         default: Date.now
     }

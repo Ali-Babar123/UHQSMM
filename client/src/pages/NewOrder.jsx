@@ -148,7 +148,7 @@ function NewOrder() {
               <div ref={dropdownRef} className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="w-full px-4 py-2 flex items-center justify-between border rounded-md bg-gray-50 dark:bg-gray-800 text-black dark:text-gray-100"
+                  className="w-full px-4 py-2 flex items-center justify-between border rounded-md bg-gray-50 border-gray-700 dark:bg-gray-900 text-black dark:text-gray-100"
                 >
                   {selectedCategory ? (
                     <div className="flex items-center space-x-2">
@@ -170,7 +170,7 @@ function NewOrder() {
                 </button>
 
                 {dropdownOpen && (
-                  <div className="absolute z-10 mt-1 w-full max-h-60 border dark:border-gray-600  overflow-y-auto rounded-md bg-white dark:bg-gray-900 shadow-lg">
+                  <div className="absolute z-10 mt-1 w-full max-h-60 border dark:border-gray-600 border-gray-700 overflow-y-auto rounded-md bg-white dark:bg-gray-900 shadow-lg">
                     {categories.map((cat) => (
                       <div
                         key={cat.value}
@@ -179,7 +179,7 @@ function NewOrder() {
                           setSelectedService('');
                           setDropdownOpen(false);
                         }}
-                        className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                        className="flex items-center border border-gray-200 space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
                       >
                         <img src={cat.image} alt={cat.label} className="w-6 h-6 rounded-full" />
                         <span className="text-sm text-gray-800 dark:text-gray-200">{cat.label}</span>
@@ -215,7 +215,7 @@ function NewOrder() {
                     }
                   }}
 
-                  className="w-full rounded-md border border-gray-100 px-4 py-2 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-100"
+                  className="w-full rounded-md border border-gray-700 px-4 py-2 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-100"
                 >
                   {allServices
                     .filter(service =>
@@ -242,8 +242,8 @@ function NewOrder() {
             {/* Category Description Box */}
             {selectedCategory?.description && (
               <>
-                <label className="text-gray-700 dark:text-gray-300 font-semibold mb-1">Description</label>
-                <div className="p-3 mt-2 border rounded bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 text-sm whitespace-pre-line">
+                <label className="text-gray-700  dark:text-gray-300 font-semibold mb-1">Description</label>
+                <div className="p-3 mt-2 border border-gray-700 rounded bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 text-sm whitespace-pre-line">
                   {selectedCategory.description}
                 </div>
               </>
@@ -252,13 +252,14 @@ function NewOrder() {
 
             {/* Link Input */}
             <div>
-              <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Link</label>
+              <label className="block text-gray-700  dark:text-gray-300 font-semibold mb-1">Link</label>
               <input
                 type="text"
                 value={link}
                 onChange={(e) => setLink(e.target.value)}
                 placeholder="Enter order link"
-                className="w-full px-4 py-2 rounded-md border bg-gray-50 dark:bg-gray-800 text-black dark:text-white"
+                className="w-full px-4 py-2 rounded-md border  bg-gray-50 dark:bg-gray-800 text-black dark:text-white"
+              style={{border: "1px solid black", color: 'gray'}}
               />
             </div>
 
@@ -272,6 +273,7 @@ function NewOrder() {
                 value={quantity}
                 onChange={(e) => setQuantity(Number(e.target.value))}
                 className="w-full px-4 py-2 rounded-md border bg-gray-50 dark:bg-gray-800 text-black dark:text-white"
+              style={{border: "1px solid black", color: 'gray'}}
               />
             </div>
 
@@ -290,6 +292,7 @@ function NewOrder() {
                 value={charge}
                 onChange={(e) => setCharge(Number(e.target.value))}
                 className="w-full px-4 py-2 rounded-md border bg-gray-50 dark:bg-gray-800 text-black dark:text-white"
+              style={{border: "1px solid black", color: 'gray'}}
               />
             </div>
 

@@ -16,7 +16,7 @@ router.post('/addRefund', authMiddleware, createRefund);
 router.get('/getAllRefunds', authMiddleware, getAllRefunds);
 
 
-router.put('/refund/:id', authMiddleware, updateRefundStatus);
+router.put('/updateRefundStatus/:id', authMiddleware, updateRefundStatus);
 
 
 router.delete('/deleteRefund/:id', authMiddleware, deleteRefund);

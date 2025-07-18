@@ -10,6 +10,7 @@ const AddFunds = () => {
   const [method, setMethod] = useState("Plisio Crypto Payments, BTC, ETH, LTC, TRX, USDT More. Bonus %5 from 99$");
   const [amount, setAmount] = useState("");
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -22,8 +23,8 @@ const AddFunds = () => {
       const token = localStorage.getItem("authToken");
 
       const res = await axios.post(
-        "https://uhqsmm-backend-tan.vercel.app/api/funds/addFund",
-        { method, amount },
+        "http://localhost:5000/api/funds/addFund",
+        { method, amount},
         {
           headers: {
             Authorization: `Bearer ${token}`,

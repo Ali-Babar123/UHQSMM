@@ -88,7 +88,7 @@ toast.error('Failed to delete user.');
         <main className="grow-0">
           <div className="px-4 sm:px-6 lg:px-5 py-4 w-full max-w-9xl mx-auto">
             <h1 className="text-gray-400 mb-1">Dashboard / Manage Users</h1>
-            <div className="mb-4 lg:mt-5 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
+            <div className="mb-4 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
               <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-extralight mb-4 sm:mb-0">
                 Manage Users
               </h1>
@@ -103,7 +103,8 @@ toast.error('Failed to delete user.');
               type="search"
               placeholder="Search"
               className="w-full dark:text-gray-100 px-4 dark:bg-gray-900 py-3"
-              style={{ paddingLeft: '40px' }}
+              style={{ paddingLeft: '40px', color:"gray" }}
+              
             />
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-300"
@@ -174,18 +175,21 @@ toast.error('Failed to delete user.');
                     <td className="px-4 py-2">{user.email}</td>
                     <td className="px-4 py-2">From Orders</td>
                     <td className="px-4 py-2">From Orders</td>
-                    <td className="px-4 py-2">
-                      <span
-                        className={`inline-block px-2 py-1 text-xs font-semibold rounded ${user.status === 'Active'
-                          ? 'bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-100'
-                          : user.status === 'InActive'
-                            ? 'bg-yellow-200 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100'
-                            : 'bg-red-200 text-red-800 dark:bg-red-700 dark:text-red-100'
-                          }`} 
-                      >
-                        {user.status}
-                      </span>
-                    </td>
+                   <td className="px-4 py-2">
+  <select
+    value={user.status}
+    onChange={(e) => handleStatusUpdate(user._id, e.target.value)}
+    className={`text-xs rounded px-6 py-1 border transition-colors duration-300
+      ${user.status === 'Active'
+        ? 'bg-green-200 text-green-800 border-green-400 dark:bg-green-900 dark:text-green-100 dark:border-green-600'
+        : 'bg-yellow-200 text-yellow-800 border-yellow-400 dark:bg-yellow-600 dark:text-yellow-100 dark:border-yellow-600'
+      }`}
+  >
+    <option value="Active">Active</option>
+    <option value="Inactive">InActive</option>
+  </select>
+</td>
+
                     <td className="px-4 py-2 space-x-2">
                       <Link to={`/admin/user-detail/${user._id}`}>
                         <button

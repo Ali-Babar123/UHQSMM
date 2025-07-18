@@ -23,6 +23,25 @@ const RefundRequests = () => {
     }
   };
 
+  const handleStatusChange = async (id, newStatus) => {
+  try {
+    const res = await axiosInstance.put(`/vendor/updateRefundStatus/${id}`, {
+      status: newStatus,
+    });
+
+    if (res.data.success) {
+      toast.success('Refund status updated');
+      fetchRefunds(); // refresh the table
+    } else {
+      toast.error(res.data.message || 'Failed to update status');
+    }
+  } catch (err) {
+    console.error('Error updating refund status:', err.message);
+    toast.error('Server error');
+  }
+};
+
+
   useEffect(() => {
     fetchRefunds();
   }, []);
@@ -85,7 +104,7 @@ const RefundRequests = () => {
               type="search"
               placeholder="Search by Order ID"
               className="w-full dark:text-gray-100 px-4 dark:bg-gray-900 py-3"
-              style={{ paddingLeft: '40px' }}
+              style={{ paddingLeft: '40px', color: "gray" }}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -145,16 +164,21 @@ const RefundRequests = () => {
                       <td className="px-4 py-2">{refund.reason}</td>
                       <td className="px-4 py-2">{new Date(refund.createdAt).toLocaleDateString()}</td>
                       <td className="px-4 py-2">
-                        <span
-                          className={`inline-block px-2 py-1 text-xs font-semibold rounded ${refund.status === 'Active'
-                              ? 'bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-100'
-                              : refund.status === 'Pending'
-                                ? 'bg-yellow-200 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100'
-                                : 'bg-red-200 text-red-800 dark:bg-red-700 dark:text-red-100'
-                            }`}
+                        <select
+                          value={refund.status}
+                          onChange={(e) => handleStatusChange(refund._id, e.target.value)}
+                          className={`text-xs font-semibold rounded px-6 py-1
+    dark:bg-gray-800 dark:text-white
+    ${refund.status === 'Approved' ? 'bg-green-200 text-green-800 dark:bg-green-600'
+                              : refund.status === 'Rejected' ? 'bg-red-200 text-red-800 dark:bg-red-600'
+                                : 'bg-yellow-200 text-yellow-800 dark:bg-yellow-600'}
+  `}
                         >
-                          {refund.status}
-                        </span>
+                          <option value="Pending">Pending</option>
+                          <option value="Approved">Approved</option>
+                          <option value="Rejected">Rejected</option>
+                        </select>
+
                       </td>
                       <td className="px-4 py-2 flex items-center space-x-3">
                         <button className="text-green-500 hover:text-green-700">

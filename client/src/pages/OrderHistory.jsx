@@ -26,8 +26,10 @@ const OrderHistory = () => {
         console.error('Error fetching orders:', err.message);
       }
     };
-
     fetchOrders();
+    const interval = setInterval(fetchOrders, 10000); // Fetch every 10 seconds
+
+  return () => clearInterval(interval); // Clean up on unmoun
   }, []);
 
 
@@ -44,9 +46,9 @@ const OrderHistory = () => {
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order._id === id ? { ...order, status: newStatus } : order
-    )
-  );
-  toast.success('Status Updated Sucessfully')
+        )
+      );
+      toast.success('Status Updated Sucessfully')
     } catch (error) {
       console.error('Failed to update status:', error.message);
     }
@@ -63,16 +65,16 @@ const OrderHistory = () => {
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main className="grow-0">
-                  <div className="px-4 sm:px-6 lg:px-4 py-4 w-full max-w-9xl mx-auto">
-                    <h1 className="text-gray-400 mb-1">Dashboard / Order History</h1>
-                    <div className="mb-4 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
-                      <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-extralight mb-4 sm:mb-0">
-                        Order History
-                      </h1>
-                      <Datepicker align="left" />
-                    </div>
-                  </div>
-                </main>
+          <div className="px-4 sm:px-6 lg:px-4 py-4 w-full max-w-9xl mx-auto">
+            <h1 className="text-gray-400 mb-1">Dashboard / Order History</h1>
+            <div className="mb-4 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
+              <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-extralight mb-4 sm:mb-0">
+                Order History
+              </h1>
+              <Datepicker align="left" />
+            </div>
+          </div>
+        </main>
 
         {/* Search + Button */}
         <div className="p-4 mt-4 flex justify-between items-center">
@@ -83,7 +85,7 @@ const OrderHistory = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full dark:text-gray-100 px-4 py-2"
-              style={{ paddingLeft: '40px' }}
+              style={{ paddingLeft: '40px', color: "gray" }}
             />
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-300"
@@ -137,16 +139,21 @@ const OrderHistory = () => {
                       <td className="px-4 py-2">{order.serviceId?.name}</td>
                       <td className="px-4 py-2">-</td>
                       <td className="px-4 py-2">
-                        <select
-                          value={order.status}
-                          onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                          className="bg-gray-900 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded px-8 py-1 text-sm"
+                        <span
+                          className={`
+      inline-block px-3 py-1 rounded-full text-xs font-semibold
+      ${order.status === 'Approved'
+                              ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100'
+                              : order.status === 'Pending'
+                                ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-600 dark:text-yellow-100'
+                                : 'bg-red-100 text-red-800 dark:bg-red-600 dark:text-red-100'
+                            }
+    `}
                         >
-                          <option value="Approved">Approved</option>
-                          <option value="Pending">Pending</option>
-                          <option value="Cancel">Cancel</option>
-                        </select>
+                          {order.status}
+                        </span>
                       </td>
+
 
                     </tr>
                   ))

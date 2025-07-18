@@ -170,7 +170,7 @@ const TicketSupport = () => {
                   name="category"
                   value={categoryname}
                   onChange={(e) => setCategoryname(e.target.value)}
-                  style={{ border: '1px solid rgba(0, 0, 0, 0.3)' }}
+                  style={{ border: '1px solid rgba(0, 0, 0, 0.3)' ,color:"gray"}}
 
                   className="w-full rounded-md border border-gray-200 bg-gray-50 px-4 py-2 text-gray-700 dark:bg-[var(--color-dark-violet)] dark:border-blue-950 dark:text-gray-300"
                 />
@@ -181,7 +181,7 @@ const TicketSupport = () => {
                   Service
                 </label>
                 <input
-                  style={{ border: '1px solid rgba(0, 0, 0, 0.3)' }}
+                  style={{ border: '1px solid rgba(0, 0, 0, 0.3)', color:"gray" }}
                   type="text"
                   id="subcategory"
                   name="subcategory"
@@ -199,7 +199,7 @@ const TicketSupport = () => {
                 <input
                   type="text"
                   id="orderId"
-                  style={{ border: '1px solid rgba(0, 0, 0, 0.3)' }}
+                  style={{ border: '1px solid rgba(0, 0, 0, 0.3)', color:"gray" }}
                   name="orderId"
                   value={orderId}
                   onChange={(e) => setOrderId(e.target.value)}
@@ -255,7 +255,7 @@ const TicketSupport = () => {
                 </label>
                 <textarea
                   id="description"
-                  style={{ border: '1px solid rgba(0, 0, 0, 0.3)' }}
+                  style={{ border: '1px solid rgba(0, 0, 0, 0.3)' ,color:"gray"}}
                   name="description"
                   rows="4"
                   value={description}

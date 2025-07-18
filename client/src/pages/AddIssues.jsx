@@ -19,7 +19,7 @@ const AddIssues = () => {
       const token = localStorage.getItem("authToken");
 
       const res = await axios.post(
-        "https://uhqsmm-backend-tan.vercel.app/api/admin/addIssue",
+        "http://localhost:5000/api/admin/addIssue",
         { issueType, serviceStatus, description, service }, // ✅ include service
         {
           headers: {

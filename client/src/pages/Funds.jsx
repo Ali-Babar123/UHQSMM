@@ -14,7 +14,7 @@ const AddFunds = () => {
     const fetchFunds = async () => {
       try {
         const token = localStorage.getItem("authToken");
-        const res = await axios.get("https://uhqsmm-backend-tan.vercel.app/api/funds/getAllFunds", {
+        const res = await axios.get("http://localhost:5000/api/funds/getAllFunds", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -26,6 +26,9 @@ const AddFunds = () => {
     };
 
     fetchFunds();
+    const interval = setInterval(fetchFunds, 10000); // Fetch every 10 seconds
+
+    return () => clearInterval(interval); // Clean up on unmoun
   }, []);
 
   return (
@@ -36,16 +39,16 @@ const AddFunds = () => {
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main className="grow-0">
-                  <div className="px-4 sm:px-6 lg:px-4 py-4 w-full max-w-9xl mx-auto">
-                    <h1 className="text-gray-400 mb-1">Dashboard / Funds</h1>
-                    <div className="mb-4 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
-                      <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-extralight mb-4 sm:mb-0">
-                        Funds
-                      </h1>
-                      <Datepicker align="left" />
-                    </div>
-                  </div>
-                </main>
+          <div className="px-4 sm:px-6 lg:px-4 py-4 w-full max-w-9xl mx-auto">
+            <h1 className="text-gray-400 mb-1">Dashboard / Funds</h1>
+            <div className="mb-4 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
+              <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-extralight mb-4 sm:mb-0">
+                Funds
+              </h1>
+              <Datepicker align="left" />
+            </div>
+          </div>
+        </main>
 
         {/* Search and Add Button */}
         <div className="p-4 flex justify-between items-center">
@@ -54,7 +57,7 @@ const AddFunds = () => {
               type="search"
               placeholder="Search"
               className="w-full dark:text-gray-100 px-4 py-2"
-              style={{ paddingLeft: '40px' }}
+              style={{ paddingLeft: '40px', color: "gray" }}
             />
             <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-300"
               fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -97,10 +100,30 @@ const AddFunds = () => {
                 {funds.length > 0 ? (
                   funds.map((fund, index) => (
                     <tr key={fund._id}>
-                      <td className="px-4 py-2">0{index + 1}</td>
-                      <td className="px-4 py-2">{new Date(fund.createAt).toLocaleDateString()}</td>
+                      <td className="px-4 py-2">#0{index + 1}</td>
+                      <td className="px-4 py-2">{new Date(fund.createdAt).toLocaleDateString()}</td>
                       <td className="px-4 py-2">{fund.method}</td>
                       <td className="px-4 py-2">{fund.amount}</td>
+                      <td className="px-4 py-2">
+                        <span
+                          className={`
+      inline-block px-3 py-1 rounded-full text-xs font-semibold
+      ${fund.status === 'Approved'
+                              ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100'
+                              : fund.status === 'Pending'
+                                ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-600 dark:text-yellow-100'
+                                : fund.status === 'Refunded'
+                                  ? 'bg-yellow-100 text-blue-800 dark:bg-blue-600 dark:text-blue-100'
+                                  : fund.status === 'Cancel'
+                                ? 'bg-red-100 text-red-800 dark:bg-red-600 dark:text-red-100'
+                                : ""
+                                  
+                            }
+    `}
+                        >
+                          {fund.status}
+                        </span>
+                      </td>
                     </tr>
                   ))
                 ) : (

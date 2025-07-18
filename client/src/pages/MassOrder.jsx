@@ -117,17 +117,17 @@ const handleSubmit = async () => {
                 Mass Order
               </h1>
 
-              <h2 className="text-gray-400 font-light mt-8">Amount</h2>
+              <h2 className="dark:text-gray-100 text-gray-900 font-light mt-8">Amount</h2>
 
               <input
                 className="mt-2 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 p-4 resize-y focus:outline-none focus:ring-2 focus:ring-violet-500 transition rounded-md"
                 value={inputValue}
-                onChange={handleChange}style={{ border: '1px solid rgba(0, 0, 0, 0.3)' }}
+                onChange={handleChange} style={{ border: "1px solid black", color: 'gray'}}
                 placeholder="ServiceId | Quantity | link"
               />
 
               {/* Submit Button */}
-              <button onClick={handleSubmit} className="lg:w-md w-full mt-6 py-2 border border-violet-600 text-violet-600 rounded-4xl dark:gradient-border hover:bg-violet-500 hover:text-white dark:hover:text-white dark:hover:bg-violet-700 cursor-pointer transition">
+              <button onClick={handleSubmit} className="lg:w-md w-full mt-6 py-2 border border-violet-600 rounded-4xl dark:gradient-border bg-violet-500 text-white hover:text-white dark:hover:text-white dark:hover:bg-violet-700 cursor-pointer transition">
                 Submit
               </button>
             </div>

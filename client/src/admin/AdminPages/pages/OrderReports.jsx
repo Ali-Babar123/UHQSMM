@@ -4,8 +4,11 @@ import Header from '../partials/Header';
 import { useLocation, NavLink } from 'react-router-dom';
 import Datepicker from '../components/Datepicker';
 import axiosInstance from '../../../axiosInstance'; // import your axios instance
+import { toast } from 'react-toastify';
+
 
 const OrderReport = () => {
+
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [orderReports, setOrderReports] = useState([]);
@@ -33,26 +36,29 @@ const OrderReport = () => {
     fetchReports();
   }, []);
 
-  const handleStatusChange = async (id, newStatus) => {
+
+const handleStatusChange = async (id, newStatus) => {
   try {
-    // Optimistically update local state
+    // Optimistically update local UI
     setOrderReports((prevReports) =>
       prevReports.map((report) =>
         report._id === id ? { ...report, serviceStatus: newStatus } : report
       )
     );
 
-    // Send status update to server (adjust endpoint and payload as needed)
-    await axiosInstance.patch(`/admin/updateIssueStatus/${id}`, {
+    // Call backend to update status
+    await axiosInstance.put(`/admin/updateIssueStatus/${id}`, {
       serviceStatus: newStatus,
     });
 
     toast.success('Status updated successfully.');
   } catch (err) {
-    toast.error('Failed to update status:', err);
-    // Optionally revert local state change or show error toast
+    console.error(err);
+    toast.error('Failed to update status.');
+    // Optionally rollback optimistic update
   }
 };
+
 
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-[var(--color-dark-gray)]">
@@ -78,7 +84,7 @@ const OrderReport = () => {
               type="search"
               placeholder="Search"
               className="w-full dark:text-gray-100 px-4 dark:bg-gray-900 py-3"
-              style={{ paddingLeft: '40px' }}
+              style={{ paddingLeft: '40px',  color: "gray"  }}
             />
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-300"
@@ -140,7 +146,6 @@ const OrderReport = () => {
                     <th className="px-4 py-3">ID</th>
                     <th className="px-4 py-3">User</th>
                     <th className="px-4 py-3">Issue Type</th>
-                    <th className="px-4 py-3">Service</th>
                     <th className="px-4 py-3">Status</th>
                     <th className="px-4 py-3">Date & Time</th>
                   </tr>
@@ -151,7 +156,6 @@ const OrderReport = () => {
                       <td className="px-4 py-2">#{i + 1}</td>
                       <td className="px-4 py-2">{entry?.user?.name || 'N/A'}</td>
                       <td className="px-4 py-2">{entry.issueType}</td>
-                      <td className="px-4 py-2">{entry.service || 'N/A'}</td>
                       <td className="px-4 py-2">
                         <select
                           value={entry.serviceStatus}
@@ -165,7 +169,7 @@ const OrderReport = () => {
                         >
                           <option value="Pending">Pending</option>
                           <option value="Approved">Approved</option>
-                          <option value="Resolved">Blocked</option>
+                          <option value="Blocked">Blocked</option>
                         </select>
                       </td>
 

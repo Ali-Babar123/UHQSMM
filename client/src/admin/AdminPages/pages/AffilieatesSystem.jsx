@@ -19,7 +19,7 @@ const Affiliate = () => {
   useEffect(() => {
     const fetchAffiliates = async () => {
       try {
-       
+
         const res = await axiosInstance.get('/admin/getAllAffiliates');
         if (res.data.success) {
           setAffiliateData(res.data.affiliates);
@@ -44,22 +44,45 @@ const Affiliate = () => {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!',
     });
-  
+
     if (!result.isConfirmed) return;
 
-  try {
-    const res = await axiosInstance.delete(`/admin/deleteAffiliate/${id}`);
-    if (res.data.success) {
-      setAffiliateData((prev) => prev.filter((item) => item._id !== id));
-      toast.success('Affiliate deleted successfully');
-    } else {
-      toast.error(res.data.message || 'Failed to delete affiliate');
+    try {
+      const res = await axiosInstance.delete(`/admin/deleteAffiliate/${id}`);
+      if (res.data.success) {
+        setAffiliateData((prev) => prev.filter((item) => item._id !== id));
+        toast.success('Affiliate deleted successfully');
+      } else {
+        toast.error(res.data.message || 'Failed to delete affiliate');
+      }
+    } catch (error) {
+      console.error('Failed to delete affiliate:', error.message);
+      toast.error('Error deleting affiliate');
     }
-  } catch (error) {
-    console.error('Failed to delete affiliate:', error.message);
-    toast.error('Error deleting affiliate');
-  }
-};
+  };
+
+  const handleStatusChange = async (affiliateId, newStatus) => {
+    try {
+      const res = await axiosInstance.put(
+        `/admin/updateAffiliateStatus/${affiliateId}`,
+        { status: newStatus }
+      );
+      if (res.data.success) {
+        setAffiliateData((prev) =>
+          prev.map((aff) =>
+            aff._id === affiliateId ? { ...aff, status: newStatus } : aff
+          )
+        );
+        toast.success(`Status updated to ${newStatus}`);
+      } else {
+        toast.error(res.data.message || 'Failed to update status');
+      }
+    } catch (error) {
+      console.error('Status update failed:', error.message);
+      toast.error('Error updating status');
+    }
+  };
+
 
 
   return (
@@ -88,7 +111,7 @@ const Affiliate = () => {
               type="search"
               placeholder="Search"
               className="w-full dark:text-gray-100 px-4 dark:bg-gray-900 py-3"
-              style={{ paddingLeft: '40px' }}
+              style={{ paddingLeft: '40px', color: "gray" }}
             />
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-300"
@@ -150,15 +173,25 @@ const Affiliate = () => {
                       <td className="px-4 py-2">${item.totalEarned}</td>
                       <td className="px-4 py-2">{item.commission}%</td>
                       <td className="px-4 py-2">
-                        <span className="inline-block px-2 py-1 text-xs font-semibold rounded bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-100">
-                          Active
-                        </span>
+                        <select
+                          value={item.status}
+                          onChange={(e) => handleStatusChange(item._id, e.target.value)}
+                          className={`text-sm rounded px-8 py-1 border transition-colors duration-300
+      ${item.status === 'Completed'
+                              ? 'bg-green-200 text-green-800 border-green-400 dark:bg-green-900 dark:text-green-300 dark:border-green-600'
+                              : 'bg-yellow-200 text-yellow-800 border-yellow-400 dark:bg-yellow-900 dark:text-yellow-300 dark:border-yellow-600'
+                            }`}
+                        >
+                          <option value="Processing">Processing</option>
+                          <option value="Completed">Completed</option>
+                        </select>
                       </td>
+
                       <td className="px-4 py-2 space-x-3 flex items-center">
                         <button className="text-green-600 hover:text-green-700">
                           <FiEdit className="w-4 h-4" />
                         </button>
-                        <button className="text-red-500 hover:text-red-700"  onClick={() => handleDeleteAffiliate(item._id)}>
+                        <button className="text-red-500 hover:text-red-700" onClick={() => handleDeleteAffiliate(item._id)}>
                           <FiTrash2 className="w-4 h-4" />
                         </button>
                       </td>

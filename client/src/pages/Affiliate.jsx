@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axiosInstance from '../axiosInstance';
 
+
 const Affiliate = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
@@ -26,7 +27,7 @@ const Affiliate = () => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const res = await axios.get('https://uhqsmm-backend-tan.vercel.app/api/auth/me', {
+        const res = await axios.get('http://localhost:5000/api/auth/me', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -55,7 +56,7 @@ const Affiliate = () => {
     try {
       const token = localStorage.getItem('authToken');
 
-      const response = await axios.post('https://uhqsmm-backend-tan.vercel.app/api/admin/addAffiliate', {
+      const response = await axios.post('http://localhost:5000/api/admin/addAffiliate', {
         referralLink,
         referralCode: user?.referralCode || '',
         referrals: user?.referrals || 0,
@@ -90,20 +91,32 @@ const Affiliate = () => {
 
   const fetchAffiliates = async () => {
     try {
+      const token = localStorage.getItem('authToken');
 
-      const res = await axiosInstance.get('/admin/getAllAffiliates');
-      if (res.data.success) {
-        setAffiliateData(res.data.affiliates);
+      const res = await axios.get('http://localhost:5000/api/admin/getSingleAffiliate', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (res.data.success && res.data.affiliate) {
+        setAffiliateData([res.data.affiliate]); // Wrap in array for map
+      } else {
+        setAffiliateData([]); // Fallback to empty
       }
     } catch (error) {
-      console.error('Failed to fetch affiliates:', error.message);
+      console.error('Failed to fetch affiliate:', error.message);
+      setAffiliateData([]); // Prevent infinite loading
     } finally {
       setLoading(false);
     }
-  };
-  useEffect(() => {
     fetchAffiliates();
-  }, []);
+    const interval = setInterval(fetchAffiliates, 10000); // Fetch every 10 seconds
+
+   return () => clearInterval(interval); // Clean up on unmoun
+  };
+   
+ 
 
 
   if (loading) {
@@ -115,17 +128,17 @@ const Affiliate = () => {
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-       <main className="grow-0">
-                 <div className="px-4 sm:px-6 lg:px-4 py-4 w-full max-w-9xl mx-auto">
-                   <h1 className="text-gray-400 mb-1">Dashboard / Affiliates</h1>
-                   <div className="mb-4 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
-                     <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-extralight mb-4 sm:mb-0">
-                       Affiliates
-                     </h1>
-                     <Datepicker align="left" />
-                   </div>
-                 </div>
-               </main>
+        <main className="grow-0">
+          <div className="px-4 sm:px-6 lg:px-4 py-4 w-full max-w-9xl mx-auto">
+            <h1 className="text-gray-400 mb-1">Dashboard / Affiliates</h1>
+            <div className="mb-4 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
+              <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-extralight mb-4 sm:mb-0">
+                Affiliates
+              </h1>
+              <Datepicker align="left" />
+            </div>
+          </div>
+        </main>
 
         <div className="space-y-10 px-4 lg:px-4 py-2">
           <div className="gap-6">
@@ -140,8 +153,9 @@ const Affiliate = () => {
               <input
                 type="text"
                 value={referralLink}
-                style={{ border: '1px solid rgba(0, 0, 0, 0.3)' }}
+                style={{ border: '1px solid rgba(0, 0, 0, 0.3)', color: "gray" }}
                 onChange={(e) => setReferralLink(e.target.value)}
+
                 className="w-full rounded-md bg-gray-100 dark:bg-gray-700 px-4 py-2 text-gray-800 dark:text-white"
               />
 
@@ -290,11 +304,18 @@ const Affiliate = () => {
                               <td className="py-2 px-4">{item.currency}</td>
                               <td className="py-2 px-4">{item.address}</td>
                               <td className="py-2 px-4">
-                                <span className={`px-2 py-1 rounded-md text-sm font-medium ${item.status === 'Completed' ? 'bg-green-400 text-green-800' : 'bg-yellow-400 text-yellow-800'
-                                  }`}>
+                                <span
+                                  className={`px-3 py-1 rounded-md text-sm font-semibold
+    ${item.status === 'Processing'
+                                      ? 'bg-yellow-400 text-yellow-900'
+                                      : 'bg-green-400 text-green-900'
+                                    }`}
+                                >
                                   {item.status}
                                 </span>
+
                               </td>
+
 
                             </tr>
                           ))}
