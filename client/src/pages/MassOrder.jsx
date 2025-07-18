@@ -62,7 +62,7 @@ const handleSubmit = async () => {
   try {
     const token = localStorage.getItem('authToken');
     const response = await axios.post(
-      'https://uhqsmm-backend-tan.vercel.app/api/vendor/addMassOrder',
+      'https://server-cyan-one.vercel.app/api/vendor/addMassOrder',
       { serviceId, quantity, link },
       {
         headers: {

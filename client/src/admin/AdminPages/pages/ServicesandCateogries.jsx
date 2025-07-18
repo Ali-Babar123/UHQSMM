@@ -84,8 +84,8 @@ const ServiceAndCategories = () => {
     try {
       const token = localStorage.getItem('authToken');
       const url = editId
-        ? `https://uhqsmm-backend-tan.vercel.app/api/admin/updateService/${editId}`
-        : 'https://uhqsmm-backend-tan.vercel.app/api/admin/addService';
+        ? `https://server-cyan-one.vercel.app/api/admin/updateService/${editId}`
+        : 'https://server-cyan-one.vercel.app/api/admin/addService';
 
       const method = editId ? 'put' : 'post';
 
@@ -143,7 +143,7 @@ const ServiceAndCategories = () => {
     {
       try {
         const token = localStorage.getItem('authToken');
-        await axios.delete(`https://uhqsmm-backend-tan.vercel.app/api/admin/deleteService/${id}`, {
+        await axios.delete(`https://server-cyan-one.vercel.app/api/admin/deleteService/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -205,7 +205,7 @@ const ServiceAndCategories = () => {
       const token = localStorage.getItem('authToken');
 
       const response = await axios.post(
-        'https://uhqsmm-backend-tan.vercel.app/api/admin/addCategory',
+        'https://server-cyan-one.vercel.app/api/admin/addCategory',
         payload,
         {
           headers: {

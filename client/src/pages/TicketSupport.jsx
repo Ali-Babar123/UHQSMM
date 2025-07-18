@@ -64,7 +64,7 @@ const TicketSupport = () => {
       };
 
       const response = await axios.post(
-        'https://uhqsmm-backend-tan.vercel.app/api/vendor/addTicket',
+        'https://server-cyan-one.vercel.app/api/vendor/addTicket',
         payload,
         {
           headers: {
