@@ -4,21 +4,55 @@ import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 import Datepicker from '../components/Datepicker';
 import { toast } from 'react-toastify';
-
+import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 
 function NewOrder() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [isPriceAsc, setIsPriceAsc] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [link, setLink] = useState('');
   const [quantity, setQuantity] = useState(100);
+  const [originalServices, setOriginalServices] = useState([]); // untouched original data
   const [charge, setCharge] = useState('')
   const [selectedService, setSelectedService] = useState('');
-  const [allServices, setAllServices] = useState([])
+  const [allServices, setAllServices] = useState([]);
+  const [notEnoughData, setNotEnoughData] = useState('')
 
+   useEffect(() => {
+    fetchServices();
+  }, []);
 
+  
   const dropdownRef = useRef();
+
+const togglePriceOrder = () => {
+  const newSortOrder = !isPriceAsc;
+  setIsPriceAsc(newSortOrder);
+
+  const sorted = [...allServices].sort((a, b) => {
+    return newSortOrder ? a.amount - b.amount : b.amount - a.amount;
+  });
+
+  setAllServices(sorted);
+
+  // Update selected service if category is selected
+  if (selectedCategory) {
+    const filtered = sorted.filter(
+      (service) =>
+        service.status === 'active' &&
+        service.categoryId._id === selectedCategory.value
+    );
+
+    if (filtered.length > 0) {
+      setSelectedService(filtered[0]);
+      const price = ((filtered[0].amount * quantity) / 1000) * 0.99;
+      setCharge(price.toFixed(2));
+    }
+  }
+};
+
 
 
 
@@ -72,15 +106,16 @@ function NewOrder() {
 
       if (res.data.success) {
         setAllServices(res.data.services);
+        setOriginalServices(res.data.services); // save full list separately
       }
     } catch (error) {
       console.error('Error fetching services:', error);
     }
   };
 
-  useEffect(() => {
-    fetchServices();
-  }, []);
+  
+
+  
 
   const handleSubmit = async () => {
     if (!selectedCategory || !selectedService || !link || !quantity || !charge) {
@@ -119,8 +154,24 @@ function NewOrder() {
       toast.error(error.response?.data?.message || 'Failed to place order.');
     }
   };
+  const fetchPopularServices = async () => {
+  try {
+    const token = localStorage.getItem('authToken');
+    const res = await axios.get('https://server-cyan-one.vercel.app/api/vendor/getPopularService', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
+    if (res.data.success) {
+      setAllServices(res.data.services);
+    }
+  } catch (error) {
+    console.error('Error fetching popular services:', error);
+  }
+};
 
+  
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -140,15 +191,15 @@ function NewOrder() {
 
         <div className="m-4">
           <div className="flex flex-col bg-white dark:bg-[rgba(37,33,57,1)] p-4 space-y-4 border border-gray-200 dark:border-[#FFFFFF]">
-            <h1 className="text-2xl dark:text-white">New Order</h1>
+            <h1 className="text-2xl dark:text-white text-black">New Order</h1>
 
             {/* Category Dropdown Custom */}
             <div>
-              <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Category</label>
+              <label className="block mt-2 text-gray-700 dark:text-gray-100 font-semibold mb-2">Category</label>
               <div ref={dropdownRef} className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="w-full px-4 py-2 flex items-center justify-between border rounded-md bg-gray-50 border-gray-700 dark:bg-gray-900 text-black dark:text-gray-100"
+                  className="w-full px-4 py-2 flex items-center justify-between border rounded-md bg-gray-50 border-gray-700 dark:border-gray-100 dark:bg-gray-900 text-black dark:text-gray-100"
                 >
                   {selectedCategory ? (
                     <div className="flex items-center space-x-2">
@@ -175,10 +226,27 @@ function NewOrder() {
                       <div
                         key={cat.value}
                         onClick={() => {
-                          setSelectedCategory(cat);
-                          setSelectedService('');
-                          setDropdownOpen(false);
-                        }}
+  setSelectedCategory(cat);
+  setDropdownOpen(false);
+
+  // Use original full list, not filtered or popular list
+  const categoryServices = originalServices.filter(
+    (service) =>
+      service.status === 'active' &&
+      service.categoryId._id === cat.value
+  );
+
+  setAllServices(originalServices); // restore full list
+  if (categoryServices.length > 0) {
+    const firstService = categoryServices[0];
+    setSelectedService(firstService);
+    const price = ((firstService.amount * quantity) / 1000) * 0.99;
+    setCharge(price.toFixed(2));
+  } else {
+    setSelectedService('');
+  }
+}}
+
                         className="flex items-center border border-gray-200 space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
                       >
                         <img src={cat.image} alt={cat.label} className="w-6 h-6 rounded-full" />
@@ -190,9 +258,25 @@ function NewOrder() {
               </div>
             </div>
 
+            <div className="flex gap-2 mt-1 ml-1">
+              <button onClick={fetchPopularServices} className="px-4 py-2 cursor-pointer bg-gray-200 dark:bg-[rgba(37,33,57,1)] border dark:border-gray-100 rounded  text-sm font-medium">
+                By Popular
+              </button>
+
+              <button
+                className="px-4 py-2 bg-gray-200 rounded cursor-pointer dark:bg-[rgba(37,33,57,1)] border dark:border-gray-100 text-sm font-medium flex items-center gap-2"
+                onClick={togglePriceOrder}
+              >
+                By Price
+                <span className="mt-0.5">
+                  {isPriceAsc ? <FaArrowUp size={16} /> : <FaArrowDown size={16} />}
+                </span>
+              </button>
+            </div>
+
             {/* Service Dropdown */}
             <div>
-              <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Service</label>
+              <label className="block text-gray-700 dark:text-gray-100 font-semibold mb-2">Service</label>
 
               {selectedCategory &&
                 allServices.some(
@@ -215,7 +299,7 @@ function NewOrder() {
                     }
                   }}
 
-                  className="w-full rounded-md border border-gray-700 px-4 py-2 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-100"
+                  className="w-full rounded-md border border-gray-900 dark:border-gray-100 px-4 py-2 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-100"
                 >
                   {allServices
                     .filter(service =>
@@ -242,7 +326,7 @@ function NewOrder() {
             {/* Category Description Box */}
             {selectedCategory?.description && (
               <>
-                <label className="text-gray-700  dark:text-gray-300 font-semibold mb-1">Description</label>
+                <label className="text-gray-700  dark:text-gray-100 font-semibold mb-1">Description</label>
                 <div className="p-3 mt-2 border border-gray-700 rounded bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 text-sm whitespace-pre-line">
                   {selectedCategory.description}
                 </div>
@@ -250,22 +334,36 @@ function NewOrder() {
             )}
 
 
+            <div>
+              <label className="block text-gray-700  dark:text-gray-100 font-semibold mb-1">Average Time</label>
+              <input
+                type="text"
+                value={notEnoughData}
+                disabled
+                onChange={(e) => setNotEnoughData(e.target.value)}
+                placeholder="Not Enough Data"
+                className="w-full px-4 py-2 rounded-md border  bg-gray-50 dark:bg-gray-800 text-black dark:text-white"
+                style={{ border: "1px solid black", color: 'gray' }}
+              />
+            </div>
+
+
             {/* Link Input */}
             <div>
-              <label className="block text-gray-700  dark:text-gray-300 font-semibold mb-1">Link</label>
+              <label className="block text-gray-700  dark:text-gray-100 font-semibold mb-1">Link</label>
               <input
                 type="text"
                 value={link}
                 onChange={(e) => setLink(e.target.value)}
                 placeholder="Enter order link"
                 className="w-full px-4 py-2 rounded-md border  bg-gray-50 dark:bg-gray-800 text-black dark:text-white"
-              style={{border: "1px solid black", color: 'gray'}}
+                style={{ border: "1px solid black", color: 'gray' }}
               />
             </div>
 
             {/* Quantity Input */}
             <div>
-              <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Quantity</label>
+              <label className="block text-gray-700 dark:text-gray-100 font-semibold mb-1">Quantity</label>
               <input
                 type="number"
                 min={10}
@@ -273,18 +371,18 @@ function NewOrder() {
                 value={quantity}
                 onChange={(e) => setQuantity(Number(e.target.value))}
                 className="w-full px-4 py-2 rounded-md border bg-gray-50 dark:bg-gray-800 text-black dark:text-white"
-              style={{border: "1px solid black", color: 'gray'}}
+                style={{ border: "1px solid black", color: 'gray' }}
               />
             </div>
 
             {selectedService && (
-              <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-1">
+              <label className="block text-gray-700 dark:text-gray-100 font-semibold mb-1">
                 Min: {selectedService.min} - Max: {selectedService.max}
               </label>
             )}
 
             <div>
-              <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Charge ( Your your rank based discount has been applied - 1% )</label>
+              <label className="block text-gray-700 dark:text-gray-100 font-semibold mb-1">Charge ( Your your rank based discount has been applied - 1% )</label>
               <input
                 type="number"
                 min={10}
@@ -292,7 +390,7 @@ function NewOrder() {
                 value={charge}
                 onChange={(e) => setCharge(Number(e.target.value))}
                 className="w-full px-4 py-2 rounded-md border bg-gray-50 dark:bg-gray-800 text-black dark:text-white"
-              style={{border: "1px solid black", color: 'gray'}}
+                style={{ border: "1px solid black", color: 'gray' }}
               />
             </div>
 

@@ -84,12 +84,12 @@ const ServiceAndCategories = () => {
     try {
       const token = localStorage.getItem('authToken');
       const url = editId
-        ? `https://server-cyan-one.vercel.app/api/admin/updateService/${editId}`
-        : 'https://server-cyan-one.vercel.app/api/admin/addService';
+        ? `/admin/updateService/${editId}`
+        : '/admin/addService';
 
       const method = editId ? 'put' : 'post';
 
-      const response = await axios({
+      const response = await axiosInstance({
         method,
         url,
         data: serviceData,
@@ -143,7 +143,7 @@ const ServiceAndCategories = () => {
     {
       try {
         const token = localStorage.getItem('authToken');
-        await axios.delete(`https://server-cyan-one.vercel.app/api/admin/deleteService/${id}`, {
+        await axiosInstance.delete(`/admin/deleteService/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -204,8 +204,8 @@ const ServiceAndCategories = () => {
 
       const token = localStorage.getItem('authToken');
 
-      const response = await axios.post(
-        'https://server-cyan-one.vercel.app/api/admin/addCategory',
+      const response = await axiosInstance.post(
+        '/admin/addCategory',
         payload,
         {
           headers: {
@@ -394,6 +394,7 @@ const ServiceAndCategories = () => {
                 <input
                   type="text"
                   value={serviceData.name}
+                   style={{border: '1px solid gray', color:'gray'}}
                   onChange={(e) => setServiceData({ ...serviceData, name: e.target.value })}
                   placeholder="Service Name"
                   className="w-full px-4 py-2 bg-gray-100 dark:bg-[#271F44] border border-gray-300 dark:border-gray-600 rounded"
@@ -403,9 +404,10 @@ const ServiceAndCategories = () => {
               <div>
                 <label className="block mb-1 text-gray-700 dark:text-gray-300">Category Name</label>
                 <select
+                
                   value={serviceData.categoryId}
                   onChange={(e) => setServiceData({ ...serviceData, categoryId: e.target.value })}
-                  className="w-full px-4 py-2 bg-gray-100 dark:bg-[#271F44] border border-gray-300 dark:border-gray-600 rounded"
+                  className="w-full px-4 py-2 bg-gray-100 dark:bg-[#271F44] border dark:border-gray-600 rounded"
                 >
                   <option value="">Select Category</option>
                   {categories.map((category) => (
@@ -448,6 +450,7 @@ const ServiceAndCategories = () => {
                 <input
                   type="number"
                   value={serviceData.amount}
+                   style={{border: '1px solid gray', color: 'gray'}}
                   onChange={(e) => setServiceData({ ...serviceData, amount: e.target.value })}
                   placeholder="Amount"
                   className="w-full px-4 py-2 bg-gray-100 dark:bg-[#271F44] border border-gray-300 dark:border-gray-600 rounded"
@@ -460,6 +463,7 @@ const ServiceAndCategories = () => {
                 <input
                   type="number"
                   value={serviceData.min}
+                   style={{border: '1px solid gray', color: 'gray'}}
                   onChange={(e) => setServiceData({ ...serviceData, min: e.target.value })}
                   placeholder="Min. Quantity"
                   className="w-full px-4 py-2 bg-gray-100 dark:bg-[#271F44] border border-gray-300 dark:border-gray-600 rounded"
@@ -472,6 +476,7 @@ const ServiceAndCategories = () => {
                 <input
                   type="number"
                   value={serviceData.max}
+                   style={{border: '1px solid gray', color: 'gray'}}
                   onChange={(e) => setServiceData({ ...serviceData, max: e.target.value })}
                   placeholder="Max. Quantity"
                   className="w-full px-4 py-2 bg-gray-100 dark:bg-[#271F44] border border-gray-300 dark:border-gray-600 rounded"
@@ -513,8 +518,9 @@ const ServiceAndCategories = () => {
                   type="text"
                   value={categoryName}
                   onChange={(e) => setCategoryName(e.target.value)}
+                   style={{border: '1px solid gray', color: 'gray'}}
                   placeholder="Enter category name"
-                  className="w-full px-4 py-2 bg-gray-100 dark:bg-[#271F44] border border-gray-300 dark:border-gray-600 rounded"
+                  className="w-full px-4 py-2 bg-gray-100 dark:bg-[#271F44] border border-gray-100 dark:border-gray-600 rounded"
                 />
               </div>
 
@@ -564,6 +570,7 @@ const ServiceAndCategories = () => {
                 <textarea
                   rows="4"
                   value={description}
+                   style={{border: '1px solid gray', color: 'gray'}}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Instagram services like followers..."
                   className="w-full px-4 py-2 bg-gray-100 dark:bg-[#271F44] border border-gray-300 dark:border-gray-600 rounded resize-none"

@@ -112,10 +112,24 @@ const getServicesByCategory = async (req, res) => {
   }
 };
 
+const getPopularServices = async (req, res) => {
+  try {
+    const services = await AdminService.find({ status: 'active' })
+      .sort({ soldCount: -1 }) // most sold first
+      .limit(20); // or whatever limit you want
+
+    res.status(200).json({ success: true, services });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+
 module.exports = {
   addService,
   getAllServices,
   getServicesByCategory,
   updateService,
+  getPopularServices,
   deleteService,
 };

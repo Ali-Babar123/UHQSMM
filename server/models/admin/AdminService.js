@@ -31,8 +31,10 @@ const AdminServiceSchema = new mongoose.Schema({
     ref: 'AdminCategory', // 👈 refers to your category model
     required: true,
   },
-  
-
+   soldCount: {
+    type: Number,
+    default: 0, // ✅ start from zero
+  }
 });
 
 module.exports = mongoose.model('AdminService', AdminServiceSchema);

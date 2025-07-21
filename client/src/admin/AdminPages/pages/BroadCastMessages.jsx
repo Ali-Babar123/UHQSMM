@@ -263,6 +263,7 @@ const handleSendMessage = async () => {
                     type="text"
                     name="title"
                     value={formData.title}
+                   style={{border: '1px solid gray', color: 'gray'}}
                     onChange={handleChange}
                     placeholder="Enter title"
                     className="w-full px-4 py-2 bg-gray-100 dark:bg-[#2d2744] text-black dark:text-white border border-gray-300 dark:border-gray-600 rounded"
@@ -275,6 +276,7 @@ const handleSendMessage = async () => {
                     rows="4"
                     name="description"
                     value={formData.description}
+                   style={{border: '1px solid gray', color: 'gray'}}
                     onChange={handleChange}
                     placeholder="Type your message..."
                     className="w-full px-4 py-2 bg-gray-100 dark:bg-[#2d2744] text-black dark:text-white border border-gray-300 dark:border-gray-600 rounded resize-none"
@@ -303,6 +305,7 @@ const handleSendMessage = async () => {
                     name="users"
                     value={formData.users}
                     onChange={handleChange}
+                   style={{border: '1px solid gray', color: 'gray'}}
                     placeholder="Usernames/emails (comma-separated)"
                     className="w-full px-4 py-2 bg-gray-100 dark:bg-[#2d2744] text-black dark:text-white border border-gray-300 dark:border-gray-600 rounded"
                   />

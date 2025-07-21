@@ -10,9 +10,9 @@ const order = async (req, res) => {
     const serviceData = await AdminService.findById(serviceId);
     if (!serviceData) return res.status(400).json({ message: 'Invalid service selected' });
 
-    if (quantity < serviceData.min || quantity > serviceData.max) {
-      return res.status(400).json({ message: `Quantity must be between ${serviceData.min} and ${serviceData.max}` });
-    }
+    // if (quantity < serviceData.min || quantity > serviceData.max) {
+    //   return res.status(400).json({ message: `Quantity must be between ${serviceData.min} and ${serviceData.max}` });
+    // }
 
    if (isNaN(charge)) {
       return res.status(400).json({ message: 'Charge must be a valid number.' });
@@ -29,6 +29,11 @@ const order = async (req, res) => {
     });
 
     await newOrder.save();
+
+      // ✅ Increment soldCount for the service
+    await AdminService.findByIdAndUpdate(serviceId, {
+      $inc: { soldCount: quantity },
+    });
     res.status(201).json({ message: 'Order placed', order: newOrder });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -89,6 +94,8 @@ const updateOrder = async (req, res) => {
     if (quantity) order.quantity = quantity;
 
     await order.save();
+
+    
 
     res.status(200).json({ success: true, message: 'Order updated successfully', order });
   } catch (err) {

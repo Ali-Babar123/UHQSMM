@@ -201,7 +201,7 @@ const updateProviderStatus = async (id, newStatus) => {
                       <select
                         value={provider.status}
                         onChange={(e) => updateProviderStatus(provider._id, e.target.value)}
-                        className={`px-2 py-1 text-xs rounded border dark:bg-[#2d2744] border-gray-300 dark:border-gray-600 ${provider.status === 'Active'
+                        className={`px-5 py-1 text-xs rounded border dark:bg-[#2d2744] border-gray-300 dark:border-gray-600 ${provider.status === 'Active'
                             ? 'bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-100'
                             : provider.status === 'Pending'
                               ? 'bg-yellow-200 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100'
@@ -243,6 +243,7 @@ const updateProviderStatus = async (id, newStatus) => {
                   <input
                     type="text"
                     value={form.providerName}
+                   style={{border: '1px solid gray', color: 'gray'}}
                     onChange={(e) => setForm({ ...form, providerName: e.target.value })}
                     placeholder="e.g., AlphaProvider"
                     className="w-full px-4 py-2 bg-gray-100 dark:bg-[#2d2744] border border-gray-300 dark:border-gray-600 rounded"
@@ -255,6 +256,7 @@ const updateProviderStatus = async (id, newStatus) => {
                     type="text"
                     value={form.apiUrl}
                     onChange={(e) => setForm({ ...form, apiUrl: e.target.value })}
+                   style={{border: '1px solid gray', color: 'gray'}}
                     placeholder="https://api.example.com"
                     className="w-full px-4 py-2 bg-gray-100 dark:bg-[#2d2744] border border-gray-300 dark:border-gray-600 rounded"
                   />
@@ -266,6 +268,8 @@ const updateProviderStatus = async (id, newStatus) => {
                     type="text"
                     value={form.apiKey}
                     onChange={(e) => setForm({ ...form, apiKey: e.target.value })}
+                   style={{border: '1px solid gray', color: 'gray'}}
+
                     placeholder="Enter API key"
                     className="w-full px-4 py-2 bg-gray-100 dark:bg-[#2d2744] border border-gray-300 dark:border-gray-600 rounded"
                   />
@@ -275,6 +279,7 @@ const updateProviderStatus = async (id, newStatus) => {
                   <label className="block mb-1 text-gray-700 dark:text-gray-300">Sync Services Automatically</label>
                   <select
                     value={form.syncAutomatically}
+                   style={{border: '1px solid gray', color: 'gray'}}
                     onChange={(e) => setForm({ ...form, syncAutomatically: e.target.value })}
                     className="w-full px-4 py-2 bg-gray-100 dark:bg-[#2d2744] border border-gray-300 dark:border-gray-600 rounded"
                   >
@@ -290,6 +295,7 @@ const updateProviderStatus = async (id, newStatus) => {
                     value={form.status}
                     onChange={(e) => setForm({ ...form, status: e.target.value })}
                     placeholder="Active / Pending / Inactive"
+                   style={{border: '1px solid gray', color: 'gray'}}
                     className="w-full px-4 py-2 bg-gray-100 dark:bg-[#2d2744] border border-gray-300 dark:border-gray-600 rounded"
                   />
                 </div>
