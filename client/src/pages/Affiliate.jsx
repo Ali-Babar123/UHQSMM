@@ -89,32 +89,39 @@ const Affiliate = () => {
     }
   };
 
-  const fetchAffiliates = async () => {
-    try {
-      const token = localStorage.getItem('authToken');
+ useEffect(() => {
+ const fetchAffiliates = async () => {
+  try {
+    const token = localStorage.getItem('authToken');
+    const res = await axios.get('https://server-cyan-one.vercel.app/api/admin/getAllAffiliates', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      const res = await axios.get('https://server-cyan-one.vercel.app/api/admin/getSingleAffiliate', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      if (res.data.success && res.data.affiliate) {
-        setAffiliateData([res.data.affiliate]); // Wrap in array for map
-      } else {
-        setAffiliateData([]); // Fallback to empty
-      }
-    } catch (error) {
-      console.error('Failed to fetch affiliate:', error.message);
-      setAffiliateData([]); // Prevent infinite loading
-    } finally {
-      setLoading(false);
+    if (res.data.success && res.data.affiliates) {
+      setAffiliateData(res.data.affiliates); // ✅ set all affiliate records
+    } else {
+      setAffiliateData([]);
     }
-    fetchAffiliates();
-    const interval = setInterval(fetchAffiliates, 10000); // Fetch every 10 seconds
+  } catch (error) {
+    console.error('Failed to fetch affiliate:', error.message);
+    setAffiliateData([]);
+  } finally {
+    setLoading(false);
+  }
+};
 
-   return () => clearInterval(interval); // Clean up on unmoun
-  };
+  // Call once on mount
+  fetchAffiliates();
+
+  // Set interval to auto-refresh every 10 seconds
+  const interval = setInterval(fetchAffiliates, 10000);
+
+  // Cleanup on unmount
+  return () => clearInterval(interval);
+}, []);
+
    
  
 

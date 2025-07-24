@@ -29,7 +29,7 @@ const createAffiliate = async (req, res) => {
       address,
       totalAmount,
       description,
-      status,
+      status: status || 'Processing',
     });
 
     const saved = await affiliate.save();

@@ -19,6 +19,8 @@ function NewOrder() {
   const [selectedService, setSelectedService] = useState('');
   const [allServices, setAllServices] = useState([]);
   const [notEnoughData, setNotEnoughData] = useState('')
+  const [averageTime, setAverageTime] = useState(null);
+const [selectedServiceId, setSelectedServiceId] = useState(null)
 
    useEffect(() => {
     fetchServices();
@@ -62,7 +64,7 @@ const togglePriceOrder = () => {
     const fetchCategories = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const res = await axios.get('https://server-cyan-one.vercel.app/api/admin/getAllCategories', {
+        const res = await axios.get('http://localhost:5000/api/admin/getAllCategories', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -98,7 +100,7 @@ const togglePriceOrder = () => {
   const fetchServices = async () => {
     try {
       const token = localStorage.getItem('authToken');
-      const res = await axios.get('https://server-cyan-one.vercel.app/api/admin/getAllServices', {
+      const res = await axios.get('http://localhost:5000/api/admin/getAllServices', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -138,7 +140,7 @@ const togglePriceOrder = () => {
 
     try {
       const token = localStorage.getItem('authToken');
-      const response = await axios.post('https://server-cyan-one.vercel.app/api/vendor/newOrder', orderBody, {
+      const response = await axios.post('http://localhost:5000/api/vendor/newOrder', orderBody, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -154,22 +156,66 @@ const togglePriceOrder = () => {
       toast.error(error.response?.data?.message || 'Failed to place order.');
     }
   };
-  const fetchPopularServices = async () => {
+ const fetchPopularServices = async () => {
   try {
     const token = localStorage.getItem('authToken');
-    const res = await axios.get('https://server-cyan-one.vercel.app/api/vendor/getPopularService', {
+    const res = await axios.get('http://localhost:5000/api/admin/getAllServices', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
     if (res.data.success) {
-      setAllServices(res.data.services);
+      // Sort services based on soldCount descending (most popular first)
+      const sortedByPopularity = [...res.data.services].sort((a, b) => b.soldCount - a.soldCount);
+
+      setAllServices(sortedByPopularity);
+
+      // Set the first service as default
+      if (sortedByPopularity.length > 0) {
+        const firstService = sortedByPopularity[0];
+        setSelectedService(firstService);
+
+        // You might want to update selectedCategory as well
+        const matchingCategory = categories.find(cat => cat.value === firstService.categoryId._id);
+        if (matchingCategory) setSelectedCategory(matchingCategory);
+
+        const price = ((firstService.amount * quantity) / 1000) * 0.99;
+        setCharge(price.toFixed(2));
+      }
     }
   } catch (error) {
     console.error('Error fetching popular services:', error);
   }
 };
+
+
+
+const handleServiceSelect = async (serviceId) => {
+  setSelectedServiceId(serviceId);
+
+  try {
+    const token = localStorage.getItem('authToken');
+    const res = await axios.get(`http://localhost:5000/api/vendor/average-time/${serviceId}`, {
+       headers: {
+        Authorization: `Bearer ${token}`,
+      },
+  });
+    const { averageTime: avg, message } = res.data;
+
+    if (avg) {
+      setAverageTime(avg);
+    } else {
+      setAverageTime("Not Enough Data");
+    }
+  } catch (err) {
+    setAverageTime("Not Enough Data");
+    console.error("Failed to fetch avg time", err);
+  }
+};
+
+
+
 
   
   return (
@@ -296,6 +342,8 @@ const togglePriceOrder = () => {
 
                       const price = ((selected.amount * quantity) / 1000) * 0.99;
                       setCharge(price.toFixed(2));
+
+                      handleServiceSelect(selected._id);
                     }
                   }}
 
@@ -338,9 +386,8 @@ const togglePriceOrder = () => {
               <label className="block text-gray-700  dark:text-gray-100 font-semibold mb-1">Average Time</label>
               <input
                 type="text"
-                value={notEnoughData}
+                value={averageTime || 'Not Enough Time'}
                 disabled
-                onChange={(e) => setNotEnoughData(e.target.value)}
                 placeholder="Not Enough Data"
                 className="w-full px-4 py-2 rounded-md border  bg-gray-50 dark:bg-gray-800 text-black dark:text-white"
                 style={{ border: "1px solid black", color: 'gray' }}

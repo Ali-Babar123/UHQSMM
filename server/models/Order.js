@@ -11,12 +11,16 @@ const OrderSchema = new mongoose.Schema({
   type: String,
   enum: ['Pending', 'Approved', 'Cancel'],
   default: 'Pending',
-},
 
+},
   createdAt: {
     type: Date,
     default: Date.now,
   },
+  completedAt: {
+  type: Date,
+},
+
 });
 
 module.exports = mongoose.model('Order', OrderSchema);

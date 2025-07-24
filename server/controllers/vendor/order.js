@@ -140,18 +140,70 @@ const updateOrderStatus = async (req, res) => {
   const { status } = req.body;
 
   try {
-    const order = await Order.findById(id);
-    if (!order) {
-      return res.status(404).json({ success: false, message: 'Order not found' });
+    const updateData = { status };
+
+    // ✅ Only set completedAt when status becomes "Approved"
+    if (status === 'Approved') {
+      updateData.completedAt = new Date();
     }
 
-    order.status = status;
-    await order.save();
+    const updatedOrder = await Order.findByIdAndUpdate(id, updateData, { new: true });
 
-    res.status(200).json({ success: true, message: 'Order status updated', order });
+    res.json({ success: true, order: updatedOrder });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Failed to update status', error: err.message });
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 
-module.exports = { order, getOrders, updateOrder, deleteOrder, getSingleOrder, getAllOrders, updateOrderStatus };
+
+const getAverageTimeForService = async (req, res) => {
+  const { serviceId } = req.params;
+
+  try {
+    const orders = await Order.find({
+      serviceId,
+      status: 'Approved',
+      completedAt: { $exists: true },
+    });
+
+    if (orders.length < 1) {
+      return res.json({ success: true, averageTime: null, message: 'Not enough data' });
+    }
+
+    const totalPer1000 = orders.reduce((sum, order) => {
+      const timeMs = new Date(order.completedAt) - new Date(order.createdAt);
+      const hours = timeMs / (1000 * 60 * 60);
+      const perThousand = (hours / order.quantity) * 1000;
+      return sum + perThousand;
+    }, 0);
+
+    const avgHours = totalPer1000 / orders.length;
+
+    // ✅ Convert to "X days Y hours Z minutes"
+    const formatToReadableTime = (hoursFloat) => {
+      const totalMinutes = Math.round(hoursFloat * 60);
+      const days = Math.floor(totalMinutes / (24 * 60));
+      const hours = Math.floor((totalMinutes % (24 * 60)) / 60);
+      const minutes = totalMinutes % 60;
+
+      let result = '';
+      if (days > 0) result += `${days} day${days > 1 ? 's' : ''} `;
+      if (hours > 0) result += `${hours} hour${hours > 1 ? 's' : ''} `;
+      if (minutes > 0 && days === 0) result += `${minutes} minute${minutes > 1 ? 's' : ''}`; // only show minutes if less than 1 day
+      return result.trim();
+    };
+
+    const readableTime = formatToReadableTime(avgHours);
+
+    res.json({ success: true, averageTime: readableTime });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+
+
+
+module.exports = { order, getOrders, updateOrder, deleteOrder, getSingleOrder, getAllOrders, updateOrderStatus, getAverageTimeForService };

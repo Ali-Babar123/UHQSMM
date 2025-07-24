@@ -88,7 +88,7 @@ const ManageOrders = () => {
     try {
       const url = isMassOrder
         ? `/vendor/updateMassOrderStatus/${Id}`
-        : `/vendor/updateOrder/${Id}`;
+        : `/vendor/updateOrderStatus/${Id}`;
 
       await axiosInstance.put(url, { status: newStatus });
 

@@ -36,9 +36,16 @@ const AddService = () => {
             For Service Adding Request Send message On Telegram like indicated below
           </h2>
           <div className="mt-24 flex justify-center">
-            <button className="w-md mt-6 py-3 border border-violet-600 text-violet-600 rounded-4xl dark:gradient-border hover:bg-violet-500 hover:text-white dark:hover:text-white dark:hover:bg-violet-700 cursor-pointer transition">
-              Send Request
-            </button>
+            <a
+              href="https://t.me/vipstore"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button className="w-md mt-6 py-3 border border-violet-600 text-violet-600 rounded-4xl dark:gradient-border hover:bg-violet-500 hover:text-white dark:hover:text-white dark:hover:bg-violet-700 cursor-pointer transition">
+                Send Request
+              </button>
+            </a>
+
           </div>
         </div>
       </div>
