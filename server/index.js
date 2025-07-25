@@ -48,7 +48,7 @@ if (mongoose.connection.readyState === 0) {
 }
 
 // ✅ CORS
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174', 'https://uhqsmm.temp2026.com'];
+const allowedOrigins = ['http://localhost:5173', 'https://uhqsmm.temp2026.com'];
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
