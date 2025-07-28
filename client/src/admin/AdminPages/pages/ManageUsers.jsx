@@ -160,68 +160,78 @@ toast.error('Failed to delete user.');
                   <th className="px-4 py-3">ACTIONS</th>
                 </tr>
               </thead>
-              <tbody className="text-gray-500 dark:text-gray-400 divide-y divide-gray-200 dark:divide-gray-700">
-                {users.map((user, i) => (
-                  <tr key={user._id}>
-                    <td className="px-4 py-2">#0{i + 1}</td>
-                    <td className="px-4 py-2">
-                      <img
-                        src={Dummy}
-                        alt="User"
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                    </td>
-                    <td className="px-4 py-2">{user.name}</td>
-                    <td className="px-4 py-2">{user.email}</td>
-                    <td className="px-4 py-2">From Orders</td>
-                    <td className="px-4 py-2">From Orders</td>
-                   <td className="px-4 py-2">
-  <select
-    value={user.status}
-    onChange={(e) => handleStatusUpdate(user._id, e.target.value)}
-    className={`text-xs rounded px-6 py-1 border transition-colors duration-300
-      ${user.status === 'Active'
-        ? 'bg-green-200 text-green-800 border-green-400 dark:bg-green-900 dark:text-green-100 dark:border-green-600'
-        : 'bg-yellow-200 text-yellow-800 border-yellow-400 dark:bg-yellow-600 dark:text-yellow-100 dark:border-yellow-600'
-      }`}
-  >
-    <option value="Active">Active</option>
-    <option value="Inactive">InActive</option>
-  </select>
-</td>
+            <tbody className="text-gray-500 dark:text-gray-400 divide-y divide-gray-200 dark:divide-gray-700">
+  {users.map((user, i) => (
+    <tr key={user._id}>
+      <td className="px-4 py-2">#0{i + 1}</td>
+      <td className="px-4 py-2">
+        <img
+          src={Dummy}
+          alt="User"
+          className="w-10 h-10 rounded-full object-cover"
+        />
+      </td>
+      <td className="px-4 py-2">{user.name}</td>
+      <td className="px-4 py-2">{user.email}</td>
+      
+      {/* ✅ Show balance (totalSpent) */}
+      <td className="px-4 py-2">
+        ${user.totalSpent?.toFixed(2) || 0}
+      </td>
+      
+      {/* ✅ Show total orders */}
+      <td className="px-4 py-2">
+        {user.totalOrders || 0}
+      </td>
+      
+      <td className="px-4 py-2">
+        <select
+          value={user.status}
+          onChange={(e) => handleStatusUpdate(user._id, e.target.value)}
+          className={`text-xs rounded px-6 py-1 border transition-colors duration-300
+            ${user.status === 'Active'
+              ? 'bg-green-200 text-green-800 border-green-400 dark:bg-green-900 dark:text-green-100 dark:border-green-600'
+              : 'bg-yellow-200 text-yellow-800 border-yellow-400 dark:bg-yellow-600 dark:text-yellow-100 dark:border-yellow-600'
+            }`}
+        >
+          <option value="Active">Active</option>
+          <option value="Inactive">InActive</option>
+        </select>
+      </td>
 
-                    <td className="px-4 py-2 space-x-2">
-                      <Link to={`/admin/user-detail/${user._id}`}>
-                        <button
-                          title="View"
-                          className="text-blue-600 cursor-pointer hover:text-blue-800"
-                        >
-                          <i className="fas fa-eye"></i>
-                        </button>
-                      </Link>
-                      <button
-                        title="Toggle Status"
-                        className="text-green-600 cursor-pointer hover:text-green-800"
-                        onClick={() =>
-                          handleStatusUpdate(
-                            user._id,
-                            user.status === 'Active' ? 'InActive' : 'Active'
-                          )
-                        }
-                      >
-                        <i className="fas fa-edit"></i>
-                      </button>
-                      <button
-                        title="Delete"
-                        className="text-red-600 cursor-pointer hover:text-red-800"
-                        onClick={() => handleDelete(user._id)}
-                      >
-                        <i className="fas fa-trash-alt"></i>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+      <td className="px-4 py-2 space-x-2">
+        <Link to={`/admin/user-detail/${user._id}`}>
+          <button
+            title="View"
+            className="text-blue-600 cursor-pointer hover:text-blue-800"
+          >
+            <i className="fas fa-eye"></i>
+          </button>
+        </Link>
+        <button
+          title="Toggle Status"
+          className="text-green-600 cursor-pointer hover:text-green-800"
+          onClick={() =>
+            handleStatusUpdate(
+              user._id,
+              user.status === 'Active' ? 'InActive' : 'Active'
+            )
+          }
+        >
+          <i className="fas fa-edit"></i>
+        </button>
+        <button
+          title="Delete"
+          className="text-red-600 cursor-pointer hover:text-red-800"
+          onClick={() => handleDelete(user._id)}
+        >
+          <i className="fas fa-trash-alt"></i>
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
             </table>
             {users.length === 0 && (
               <p className="text-center text-gray-500 mt-4">No users found.</p>
