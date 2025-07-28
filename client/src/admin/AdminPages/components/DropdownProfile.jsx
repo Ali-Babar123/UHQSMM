@@ -1,29 +1,39 @@
 import React, { useState, useRef, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Transition from '../utils/Transition';
 
-import UserAvatar from '../images/user-avatar-32.png';
+// Replace this with your own boy/man photo
+import UserAvatar from '../images/user-36-06.jpg';
 
-function DropdownProfile({ align, setToken }) {
+function DropdownProfile({ align }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const navigate = useNavigate()
+
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
-  // Logout handler
-  const handleLogout = () => {
-    setToken('');
-    localStorage.removeItem('authToken');
-    console.log('Auth token removed:', localStorage.getItem('authToken')); // should log null
-    navigate('/admin/login')
-  };
+  // close on click outside
+  useEffect(() => {
+    const clickHandler = ({ target }) => {
+      if (!dropdown.current) return;
+      if (!dropdownOpen || dropdown.current.contains(target) || trigger.current.contains(target)) return;
+      setDropdownOpen(false);
+    };
+    document.addEventListener('click', clickHandler);
+    return () => document.removeEventListener('click', clickHandler);
+  });
 
-  // ... (click and key handlers remain unchanged)
+  // close if the esc key is pressed
+  useEffect(() => {
+    const keyHandler = ({ keyCode }) => {
+      if (!dropdownOpen || keyCode !== 27) return;
+      setDropdownOpen(false);
+    };
+    document.addEventListener('keydown', keyHandler);
+    return () => document.removeEventListener('keydown', keyHandler);
+  });
 
   return (
     <div className="relative inline-flex">
-      {/* Button trigger */}
       <button
         ref={trigger}
         className="inline-flex justify-center items-center group"
@@ -31,16 +41,14 @@ function DropdownProfile({ align, setToken }) {
         onClick={() => setDropdownOpen(!dropdownOpen)}
         aria-expanded={dropdownOpen}
       >
-        <img className="w-8 h-8 rounded-full" src={UserAvatar} width="32" height="32" alt="User" />
-        <div className="flex items-center truncate">
-          <span className="truncate ml-2 text-sm font-medium text-gray-600 dark:text-gray-100 group-hover:text-gray-800 dark:group-hover:text-white">UHQSMM.</span>
-          <svg className="w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500" viewBox="0 0 12 12">
-            <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-          </svg>
-        </div>
+        {/* Only User Photo */}
+        <img
+          className="w-10 h-10 rounded-full object-cover"
+          src={UserAvatar}
+          alt="User"
+        />
       </button>
 
-      {/* Dropdown */}
       <Transition
         className={`origin-top-right z-10 absolute top-full min-w-44 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700/60 py-1.5 rounded-lg shadow-lg overflow-hidden mt-1 ${align === 'right' ? 'right-0' : 'left-0'}`}
         show={dropdownOpen}
@@ -57,33 +65,33 @@ function DropdownProfile({ align, setToken }) {
           onBlur={() => setDropdownOpen(false)}
         >
           <div className="pt-0.5 pb-2 px-3 mb-1 border-b border-gray-200 dark:border-gray-700/60">
-            <div className="font-medium text-gray-800 dark:text-gray-100">UHQSMM</div>
+            <div className="font-medium text-gray-800 dark:text-gray-100">User</div>
             <div className="text-xs text-gray-500 dark:text-gray-400 italic">Administrator</div>
           </div>
           <ul>
             <li>
               <Link
-                className="font-medium text-sm text-blue-500 hover:text-blue-600 dark:hover:text-blue-700 flex items-center py-1 px-3"
+                className="font-medium text-sm flex items-center py-1 px-3"
                 to="/settings"
-                onClick={() => setDropdownOpen(false)}
+                onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 Settings
               </Link>
             </li>
             <li>
-              <button
-                className="w-full text-left cursor-pointer font-medium text-sm text-blue-500 hover:text-blue-600 dark:hover:text-blue-700 flex items-center py-1 px-3"
-                onClick={handleLogout}
+              <Link
+                className="font-medium text-sm  flex items-center py-1 px-3"
+                to="/login"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 Sign Out
-              </button>
+              </Link>
             </li>
           </ul>
         </div>
       </Transition>
     </div>
-  );
+  )
 }
-
 
 export default DropdownProfile;

@@ -23,7 +23,7 @@ const AddFunds = () => {
       const token = localStorage.getItem("authToken");
 
       const res = await axios.post(
-        "https://server-cyan-one.vercel.app/api/funds/addFund",
+        "https://server-cyan-one.vercel.app /api/funds/addFund",
         { method, amount},
         {
           headers: {

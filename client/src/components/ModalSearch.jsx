@@ -53,7 +53,7 @@ function ModalSearch({
       {/* Modal dialog */}
       <Transition
         id={id}
-        className="fixed inset-0 z-50 overflow-hidden flex items-start top-20 mb-4 justify-center px-4 sm:px-6"
+        className="fixed inset-0  z-50 overflow-hidden flex items-start top-20 mb-4 justify-center px-4 sm:px-6"
         role="dialog"
         aria-modal="true"
         show={modalOpen}
@@ -76,7 +76,8 @@ function ModalSearch({
               </label>
               <input
                 id={searchId}
-                className="w-full dark:text-gray-300 bg-white dark:bg-gray-800 border-0 focus:ring-transparent placeholder-gray-400 dark:placeholder-gray-500 appearance-none py-3 pl-10 pr-4"
+                className="w-full dark:text-gray-300 bg-white dark:bg-gray-800 border-0 focus:ring-transparent placeholder-gray-400 dark:placeholder-gray-500 appearance-none py-3 pl-18 pr-4"
+                style={{paddingLeft: '40px'}}
                 type="search"
                 placeholder="Search Anything…"
                 ref={searchInput}
