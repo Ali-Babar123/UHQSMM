@@ -55,7 +55,7 @@ const ChildPanel = () => {
       const token = localStorage.getItem('authToken');
 
         const res = await axios.post(
-            'https://server-cyan-one.vercel.app/api/admin/addChildPanel',
+            'http://localhost:5000 /api/admin/addChildPanel',
             {
                 domain,
                 username,

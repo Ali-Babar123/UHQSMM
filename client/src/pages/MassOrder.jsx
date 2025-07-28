@@ -62,7 +62,7 @@ const handleSubmit = async () => {
   try {
     const token = localStorage.getItem('authToken');
     const response = await axios.post(
-      'https://server-cyan-one.vercel.app/api/vendor/addMassOrder',
+      'http://localhost:5000 /api/vendor/addMassOrder',
       { serviceId, quantity, link },
       {
         headers: {

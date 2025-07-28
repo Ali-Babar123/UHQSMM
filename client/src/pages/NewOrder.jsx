@@ -64,7 +64,7 @@ const togglePriceOrder = () => {
     const fetchCategories = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const res = await axios.get('https://server-cyan-one.vercel.app/api/admin/getAllCategories', {
+        const res = await axios.get('http://localhost:5000 /api/admin/getAllCategories', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -100,7 +100,7 @@ const togglePriceOrder = () => {
   const fetchServices = async () => {
     try {
       const token = localStorage.getItem('authToken');
-      const res = await axios.get('https://server-cyan-one.vercel.app/api/admin/getAllServices', {
+      const res = await axios.get('http://localhost:5000 /api/admin/getAllServices', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -140,7 +140,7 @@ const togglePriceOrder = () => {
 
     try {
       const token = localStorage.getItem('authToken');
-      const response = await axios.post('https://server-cyan-one.vercel.app/api/vendor/newOrder', orderBody, {
+      const response = await axios.post('http://localhost:5000 /api/vendor/newOrder', orderBody, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -159,7 +159,7 @@ const togglePriceOrder = () => {
  const fetchPopularServices = async () => {
   try {
     const token = localStorage.getItem('authToken');
-    const res = await axios.get('https://server-cyan-one.vercel.app/api/admin/getAllServices', {
+    const res = await axios.get('http://localhost:5000 /api/admin/getAllServices', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -196,7 +196,7 @@ const handleServiceSelect = async (serviceId) => {
 
   try {
     const token = localStorage.getItem('authToken');
-    const res = await axios.get(`https://server-cyan-one.vercel.app/api/vendor/average-time/${serviceId}`, {
+    const res = await axios.get(`http://localhost:5000 /api/vendor/average-time/${serviceId}`, {
        headers: {
         Authorization: `Bearer ${token}`,
       },
