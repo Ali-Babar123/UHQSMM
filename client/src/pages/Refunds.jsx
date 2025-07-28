@@ -20,7 +20,7 @@ const Refunds = () => {
 
   const fetchRefunds = async () => {
     try {
-      const res = await axios.get('http://localhost:5000 /api/vendor/getAllRefunds', {
+      const res = await axios.get('https://server-cyan-one.vercel.app/api/vendor/getAllRefunds', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -50,7 +50,7 @@ useEffect(() => {
 
     try {
       const res = await axios.post(
-        'http://localhost:5000 /api/vendor/addRefund',
+        'https://server-cyan-one.vercel.app/api/vendor/addRefund',
         {
           orderId: selectedOrder.orderId,
           reason,

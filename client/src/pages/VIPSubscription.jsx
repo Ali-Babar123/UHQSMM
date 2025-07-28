@@ -66,7 +66,7 @@ const VIPSubscription = () => {
     try {
       const token = localStorage.getItem('authToken');
       const response = await axios.post(
-        'http://localhost:5000 /api/vendor/addSubscription',
+        'https://server-cyan-one.vercel.app/api/vendor/addSubscription',
         {
           name: plan.title.replace(' plan', '').trim(),
           price: parseFloat(plan.price.replace(/[^0-9.]/g, '')),

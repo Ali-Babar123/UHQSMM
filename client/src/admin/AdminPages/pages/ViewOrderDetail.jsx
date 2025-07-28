@@ -17,7 +17,7 @@ const ViewOrderDetail = () => {
     const fetchOrder = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const response = await axios.get(`http://localhost:5000 /api/vendor/getsingleorder/${id}`, {
+        const response = await axios.get(`https://server-cyan-one.vercel.app/api/vendor/getsingleorder/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
