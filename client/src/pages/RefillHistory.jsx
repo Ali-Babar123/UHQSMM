@@ -15,7 +15,7 @@ const RefillHistory = () => {
     const token = localStorage.getItem('authToken');
     const fetchOrders = async () => {
       try {
-        const res = await axios.get('https://server-cyan-one.vercel.app /api/vendor/getAllOrders', {
+        const res = await axios.get('https://server-cyan-one.vercel.app/api/vendor/getAllOrders', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

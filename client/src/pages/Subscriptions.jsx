@@ -15,7 +15,7 @@ const Subscriptions = () => {
     const fetchSubs = async () => {
       try {
         const res = await axios.get(
-          'https://server-cyan-one.vercel.app /api/vendor/getAllSubscriptions',
+          'https://server-cyan-one.vercel.app/api/vendor/getAllSubscriptions',
           {
             headers: { Authorization: `Bearer ${token}` },
           }

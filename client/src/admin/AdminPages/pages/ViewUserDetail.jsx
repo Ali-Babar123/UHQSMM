@@ -17,7 +17,7 @@ const UserViewDetail = () => {
         const fetchUser = async () => {
             try {
                 const token = localStorage.getItem('authToken');
-                const response = await axios.get(`https://server-cyan-one.vercel.app /api/admin/userdetail/getsingleuser/${id}`, {
+                const response = await axios.get(`https://server-cyan-one.vercel.app/api/admin/userdetail/getsingleuser/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

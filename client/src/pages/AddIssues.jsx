@@ -19,7 +19,7 @@ const AddIssues = () => {
       const token = localStorage.getItem("authToken");
 
       const res = await axios.post(
-        "https://server-cyan-one.vercel.app /api/admin/addIssue",
+        "https://server-cyan-one.vercel.app/api/admin/addIssue",
         { issueType, serviceStatus, description, service }, // ✅ include service
         {
           headers: {

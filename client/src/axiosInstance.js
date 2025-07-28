@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://server-cyan-one.vercel.app /api',
+  baseURL: 'https://server-cyan-one.vercel.app/api',
 });
 
 // Set Authorization token automatically from localStorage
