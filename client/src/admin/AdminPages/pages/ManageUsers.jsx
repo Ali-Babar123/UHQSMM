@@ -19,7 +19,7 @@ const ManageUsers = () => {
     const fetchUsers = async () => {
 
       try {
-        const res = await axiosInstance.get('https://server-cyan-one.vercel.app/api/auth/getUsers');
+        const res = await axiosInstance.get('/auth/getUsers');
         setUsers(res.data.users);
       } catch (err) {
         console.error('Error fetching users:', err.response?.data || err.message);
