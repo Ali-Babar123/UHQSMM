@@ -38,6 +38,11 @@ const RefundRoute = require('./routes/admin/refund');
 const MassOrderRoute = require('./routes/admin/massorder');
 const subscriptionRoute = require('./routes/admin/subscriptions');
 
+
+// Routes for payments
+const plisioRoute = require('./routes/payments/plisio')
+const nowPaymentsRoute = require('./routes/payments/nowpayment');
+const cryptomusRoute = require('./routes/payments/cryptomus')
 const app = express();
 
 // ✅ Connect to MongoDB (only once on cold start)
@@ -108,6 +113,13 @@ app.use('/api/stripePayment', StripePaymentRoute);
 app.use('/webhook/stripe', stripeWebhookRoute);
 app.use('/api/vendor', RefundRoute);
 app.use('/api/vendor', MassOrderRoute);
+
+// Payments Routes
+app.use('/api/payments/plisio', plisioRoute);
+app.use('/api/payments/nowpayments', nowPaymentsRoute);
+app.use('/api/payments/cryptomus', cryptomusRoute);
+
+
 
 // ✅ Root Route
 app.get('/', (req, res) => {

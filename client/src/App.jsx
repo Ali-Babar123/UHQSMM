@@ -40,6 +40,7 @@ import VIPSubscription from './pages/VIPSubscription';
 import ReportIssues from './pages/ReportIssues';
 import AddIssues from './pages/AddIssues';
 import NotFound from './pages/pageNotFound';
+import RefundPolicy from './MyComponents/RefundPolicy';
 
 const AppContent = () => {
   const location = useLocation();
@@ -86,6 +87,8 @@ const AppContent = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/faqs" element={<Faqs />} />
+        <Route path="/refund-policy" element={<RefundPolicy/>} />
+
         <Route path="/terms-conditions" element={<TermsConditions />} />
         <Route path="/privacy-policy" element={<Privacy />} />
 
@@ -106,6 +109,7 @@ const AppContent = () => {
         <Route path="/vendor/ticket-support" element={<TicketSupport />} />
         <Route path="/vendor/child-panel" element={<ChildPanel />} />
         <Route path="/vendor/refunds" element={<Refunds />} />
+        
         <Route path="/vendor/api" element={<API />} />
         <Route path="/vendor/refer" element={<Affiliate />} />
 
