@@ -43,6 +43,7 @@ const subscriptionRoute = require('./routes/admin/subscriptions');
 const plisioRoute = require('./routes/payments/plisio')
 const nowPaymentsRoute = require('./routes/payments/nowpayment');
 const cryptomusRoute = require('./routes/payments/cryptomus')
+const payeerRoute = require('./routes/payments/payeer');
 const app = express();
 
 // ✅ Connect to MongoDB (only once on cold start)
@@ -118,6 +119,7 @@ app.use('/api/vendor', MassOrderRoute);
 app.use('/api/payments/plisio', plisioRoute);
 app.use('/api/payments/nowpayments', nowPaymentsRoute);
 app.use('/api/payments/cryptomus', cryptomusRoute);
+app.use('/api/payments/payeer', payeerRoute)
 
 
 
