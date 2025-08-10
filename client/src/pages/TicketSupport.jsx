@@ -64,7 +64,7 @@ const TicketSupport = () => {
       };
 
       const response = await axios.post(
-        'https://server-cyan-one.vercel.app/api/vendor/addTicket',
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/vendor/addTicket`,
         payload,
         {
           headers: {

@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://server-cyan-one.vercel.app/api',
+  baseURL: `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api`,
 });
 
 // Set Authorization token automatically from localStorage

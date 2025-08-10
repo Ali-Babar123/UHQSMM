@@ -27,7 +27,7 @@ const Affiliate = () => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const res = await axios.get('https://server-cyan-one.vercel.app/api/auth/me', {
+        const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -56,7 +56,7 @@ const Affiliate = () => {
     try {
       const token = localStorage.getItem('authToken');
 
-      const response = await axios.post('https://server-cyan-one.vercel.app/api/admin/addAffiliate', {
+      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/admin/addAffiliate`, {
         referralLink,
         referralCode: user?.referralCode || '',
         referrals: user?.referrals || 0,
@@ -93,7 +93,7 @@ const Affiliate = () => {
  const fetchAffiliates = async () => {
   try {
     const token = localStorage.getItem('authToken');
-    const res = await axios.get('https://server-cyan-one.vercel.app/api/admin/getAllAffiliates', {
+    const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/admin/getAllAffiliates`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

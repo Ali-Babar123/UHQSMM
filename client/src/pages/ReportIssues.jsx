@@ -14,7 +14,7 @@ const ReportIssues = () => {
         const fetchIssues = async () => {
             try {
                 const token = localStorage.getItem("authToken");
-                const res = await axios.get("https://server-cyan-one.vercel.app/api/admin/getAllIssues", {
+                const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/admin/getAllIssues`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

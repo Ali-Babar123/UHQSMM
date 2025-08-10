@@ -46,7 +46,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await fetch('https://server-cyan-one.vercel.app/api/auth/createUser', {
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/createUser`, {
         method: 'POST',
         credentials: 'include',
         headers: {
