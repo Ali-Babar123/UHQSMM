@@ -1,23 +1,22 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const Stripe = require("stripe");
+require("dotenv").config();
 
-const createPaymentIntent = async (req, res) => {
-  try {
-    const { amount, userId } = req.body;
-    console.log(userId)
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount, // Amount in cents
-      currency: 'usd',
-      payment_method_types: ['card'],
-      description: 'Premium Digital Services',
-      metadata: { user_id: userId }
-    });
-
-    res.send({ clientSecret: paymentIntent.client_secret });
-  } catch (error) {
-    console.error('Error creating PaymentIntent:', error);
-    res.status(500).json({ error: error.message });
-  }
+// Create Payment Intent
+const createPaymentIntent = async (amount, currency, userId) => {
+  return await stripe.paymentIntents.create({
+    amount: amount * 100, // convert to cents
+    currency,
+    payment_method_types: ["card"],
+    description: "Premium Digital Services",
+    metadata: { user_id: userId },
+  });
 };
 
-module.exports = { createPaymentIntent };
+// Verify Webhook Signature
+const verifyWebhook = (payload, sig, endpointSecret) => {
+  return stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+};
+
+module.exports = { createPaymentIntent, verifyWebhook };

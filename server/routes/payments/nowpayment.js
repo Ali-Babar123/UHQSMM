@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../../controllers/payments/nowPaymentController');
+const { createNowPayment, getNowPaymentStatus, nowPaymentsCallback } = require('../../controllers/payments/nowPaymentController');
 
-router.post('/create', controller.createInvoice);
+router.post('/create', createNowPayment);
+router.get('/:paymentId', getNowPaymentStatus);
+router.post('/callback', nowPaymentsCallback);
 
 module.exports = router;

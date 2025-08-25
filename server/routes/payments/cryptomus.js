@@ -5,4 +5,7 @@ const { createCryptomusPayment, handleCryptomusCallback } = require('../../contr
 // Create invoice
 router.post('/pay', createCryptomusPayment);
 
+router.post('/callback', handleCryptomusCallback);
+
+
 module.exports = router;

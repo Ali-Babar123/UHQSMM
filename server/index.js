@@ -32,7 +32,6 @@ const vendorService = require('./routes/vendor/order');
 const ticketRoute = require('./routes/vendor/ticket');
 const fundsRoutes = require('./routes/fundsAddHistory');
 const PricingRoutes = require('./routes/specialPricing');
-const StripePaymentRoute = require('./routes/stripePayment');
 const stripeWebhookRoute = require('./routes/webhook/stripe');
 const RefundRoute = require('./routes/admin/refund');
 const MassOrderRoute = require('./routes/admin/massorder');
@@ -40,10 +39,18 @@ const subscriptionRoute = require('./routes/admin/subscriptions');
 
 
 // Routes for payments
+const StripePaymentRoute = require('./routes/payments/stripePayment');
 const plisioRoute = require('./routes/payments/plisio')
 const nowPaymentsRoute = require('./routes/payments/nowpayment');
 const cryptomusRoute = require('./routes/payments/cryptomus')
 const payeerRoute = require('./routes/payments/payeer');
+const changenowRoute = require('./routes/payments/changenow')
+const hoodpayRoute = require('./routes/payments/hoodpay')
+const paygateRoute = require('./routes/payments/paygate')
+
+// Routes for forgot password
+const emailRoute = require('./routes/email/email')
+const resetPasswordRoute = require('./routes/auth/reset-password')
 const app = express();
 
 // ✅ Connect to MongoDB (only once on cold start)
@@ -110,17 +117,23 @@ app.use('/api/vendor', vendorService);
 app.use('/api/vendor', getServicesByCategory);
 app.use('/api/funds', fundsRoutes);
 app.use('/api/pricing', PricingRoutes);
-app.use('/api/stripePayment', StripePaymentRoute);
 app.use('/webhook/stripe', stripeWebhookRoute);
 app.use('/api/vendor', RefundRoute);
 app.use('/api/vendor', MassOrderRoute);
 
 // Payments Routes
+app.use('/api/payments/stripe', StripePaymentRoute);
 app.use('/api/payments/plisio', plisioRoute);
 app.use('/api/payments/nowpayments', nowPaymentsRoute);
 app.use('/api/payments/cryptomus', cryptomusRoute);
-app.use('/api/payments/payeer', payeerRoute)
+app.use('/api/payments/payeer', payeerRoute);
+app.use('/api/payments/changenow', changenowRoute);
+app.use('/api/payments/hoodpay', hoodpayRoute);
+app.use('/api/payments/paygate', paygateRoute);
 
+// email verification
+app.use('/api/email', emailRoute)
+app.use('/api/auth', resetPasswordRoute)
 
 
 // ✅ Root Route

@@ -10,6 +10,9 @@ import Pricing from './MyComponents/Pricing';
 import ContactUs from './MyComponents/Contactus';
 import Service from './MyComponents/Services';
 import Login from './MyComponents/Login';
+import ForgotPassword from './MyComponents/ForgotPassword';
+import OtpInput from './MyComponents/OtpInput';
+import ResetPassword from './MyComponents/ResetPassword';
 import Signup from './MyComponents/Signup';
 import Faqs from './MyComponents/Faqs';
 import TermsConditions from './MyComponents/TermsConditions';
@@ -85,6 +88,9 @@ const AppContent = () => {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/login" element={<Login />} />
+         <Route path="/recovery" element={<ForgotPassword />} />
+        <Route path="/otp" element={<OtpInput />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/faqs" element={<Faqs />} />
         <Route path="/refund-policy" element={<RefundPolicy/>} />

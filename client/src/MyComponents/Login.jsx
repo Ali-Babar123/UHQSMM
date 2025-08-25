@@ -78,7 +78,7 @@ const Login = () => {
             </div>
 
             <div className="forgot-password">
-              <a href="#">Forgot Password?</a>
+              <Link to="/recovery">Forgot Password?</Link>
             </div>
 
             <button type="submit" className="login-btn">Login</button>

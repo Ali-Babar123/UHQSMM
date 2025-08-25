@@ -3,19 +3,19 @@ import React, { useEffect } from 'react';
 import axiosInstance from '../axiosInstance'; // your configured axios
 
 const NotFound = () => {
-  useEffect(() => {
-    const logSystemError = async () => {
-      try {
-        await axiosInstance.post('/vendor/log-frontend-error', {
-          path: window.location.pathname,
-        });
-      } catch (err) {
-        console.error('Failed to log frontend 404:', err);
-      }
-    };
+  // useEffect(() => {
+  //   const logSystemError = async () => {
+  //     try {
+  //       await axiosInstance.post('/vendor/log-frontend-error', {
+  //         path: window.location.pathname,
+  //       });
+  //     } catch (err) {
+  //       console.error('Failed to log frontend 404:', err);
+  //     }
+  //   };
 
-    logSystemError();
-  }, []);
+  //   logSystemError();
+  // }, []);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
