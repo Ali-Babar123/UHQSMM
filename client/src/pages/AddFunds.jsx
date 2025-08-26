@@ -45,37 +45,37 @@ const AddFunds = () => {
         }
 
       } else if (method.includes("ChangeNOW")) {
-  try {
-    const res = await axios.post(
-      `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/payments/changenow/create`,
-      {
-        from: "btc",
-        to: "eth",
-        amount: "0.01",
-        address: "0x57f31ad4b64095347F87eDB1675566DAfF5EC886",
-      },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+        try {
+          const res = await axios.post(
+            `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/payments/changenow/create`,
+            {
+              from: "btc",
+              to: "eth",
+              amount: "0.01",
+              address: "0x57f31ad4b64095347F87eDB1675566DAfF5EC886",
+            },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
 
-    if (res.data?.success) {
-      if (res.data.exchangeUrl) {
-        window.location.href = res.data.exchangeUrl; // Redirect to pseudo checkout
-      } else {
-        toast.info(
-          `Send ${res.data.amount} ${res.data.fromCurrency.toUpperCase()} to: ${res.data.payinAddress}`
-        );
-        console.log("ChangeNOW Payment Details:", res.data);
+          if (res.data?.success) {
+            if (res.data.exchangeUrl) {
+              window.location.href = res.data.exchangeUrl; // Redirect to pseudo checkout
+            } else {
+              toast.info(
+                `Send ${res.data.amount} ${res.data.fromCurrency.toUpperCase()} to: ${res.data.payinAddress}`
+              );
+              console.log("ChangeNOW Payment Details:", res.data);
+            }
+          } else {
+            toast.error("Failed to create ChangeNOW transaction");
+            console.error("ChangeNOW Error:", res.data);
+          }
+        } catch (error) {
+          toast.error("An error occurred while creating ChangeNOW transaction");
+          console.error("ChangeNOW Request Error:", error);
+        }
       }
-    } else {
-      toast.error("Failed to create ChangeNOW transaction");
-      console.error("ChangeNOW Error:", res.data);
-    }
-  } catch (error) {
-    toast.error("An error occurred while creating ChangeNOW transaction");
-    console.error("ChangeNOW Request Error:", error);
-  }
-}
- else if (method.includes("HoodPay")) {
+      else if (method.includes("HoodPay")) {
         // 🔹 HoodPay
         res = await axios.post(
           `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/payments/hoodpay/create`,
@@ -90,44 +90,44 @@ const AddFunds = () => {
         );
 
         if (res.data.success) {
-        window.location.href = res.data.checkout_url;
+          window.location.href = res.data.checkout_url;
         } else {
           toast.error("Failed to create HoodPay invoice");
         }
 
-      }else if (method.toLowerCase().includes("nowpayments")) {
-  try {
-    const res = await axios.post(
-      `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/payments/nowpayments/create`,
-      {
-        amount,
-        priceCurrency: "USD",
-        orderId: "order123",
-        payCurrency: "BTC",
-        successUrl: "https://uhqsmm.com/payment/success",
-        failUrl: "https://uhqsmm.com/payment/fail",
-      },
-      {
-        headers: { Authorization: `Bearer ${token}` },
+      } else if (method.toLowerCase().includes("nowpayments")) {
+        try {
+          const res = await axios.post(
+            `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/payments/nowpayments/create`,
+            {
+              amount,
+              priceCurrency: "USD",
+              orderId: "order123",
+              payCurrency: "BTC",
+              successUrl: "https://uhqsmm.com/payment/success",
+              failUrl: "https://uhqsmm.com/payment/fail",
+            },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          if (res.data.success) {
+            const { invoice_url } = res.data;
+
+
+            window.location.href = invoice_url;
+
+
+          } else {
+            toast.error("Failed to create NowPayments invoice");
+          }
+        } catch (err) {
+          console.error(err);
+          toast.error("Error creating NowPayments invoice");
+        }
       }
-    );
-
-    if (res.data.success) {
-      const { invoice_url } = res.data;
-
-   
-      window.location.href = invoice_url;
-
-      
-    } else {
-      toast.error("Failed to create NowPayments invoice");
-    }
-  } catch (err) {
-    console.error(err);
-    toast.error("Error creating NowPayments invoice");
-  }
-}
- else if (method.includes("PayGate")) {
+      else if (method.includes("PayGate")) {
         // 🔹 PayGate
         res = await axios.post(
           `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/payments/paygate/create`,
@@ -147,7 +147,49 @@ const AddFunds = () => {
           toast.error("Failed to create PayGate payment");
         }
 
-      } else if (method.includes("Stripe")) {
+      }
+      else if (method.includes("Payeer")) {
+        try {
+          const res = await axios.post(
+            `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/payments/payeer/create`,
+            {
+              amount,
+              currency: "USD",
+              orderId: "ORD" + Date.now(), // 🔹 generate unique orderId
+              description: "Payment for Order " + Date.now(),
+            },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          if (res.data.success) {
+            const { url, data } = res.data.payment;
+
+            // 🔹 Build a form to redirect to Payeer
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = url;
+
+            Object.keys(data).forEach((key) => {
+              const input = document.createElement("input");
+              input.type = "hidden";
+              input.name = key;
+              input.value = data[key];
+              form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit(); // 🔹 Redirects user to Payeer checkout
+          } else {
+            toast.error("Failed to create Payeer payment");
+          }
+        } catch (error) {
+          toast.error("Error creating Payeer payment");
+        }
+      }
+
+      else if (method.includes("Stripe")) {
         // 🔹 Stripe
         res = await axios.post(
           `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/payments/stripe/create`,
@@ -231,7 +273,7 @@ const AddFunds = () => {
                 type="number"
                 placeholder="Enter amount"
                 value={amount}
-                style={{ border: '1px solid rgba(0, 0, 0, 0.3)', color:"gray" }}
+                style={{ border: '1px solid rgba(0, 0, 0, 0.3)', color: "gray" }}
                 onChange={(e) => setAmount(e.target.value)}
                 className="w-full rounded-lg dark:bg-gray-700 px-4 py-2 mb-6 text-gray-900 text-sm border dark:border-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-600"
               />
@@ -256,111 +298,119 @@ const AddFunds = () => {
       </div>
 
 
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50">
-          <div className="bg-white dark:bg-[rgba(37,33,57,1)] p-6 border dark:border-gray-100 max-w-sm lg:max-w-4xl h-[50vh] lg:h-[80vh] w-full text-gray-800 dark:text-gray-100 relative">
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
-              Complete Payment - {method}
-            </h2>
+   {showModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+    <div className="bg-white dark:bg-[rgba(37,33,57,1)] p-6 border dark:border-gray-100 w-full max-w-md sm:max-w-lg lg:max-w-4xl max-h-[90vh] rounded-lg overflow-y-auto text-gray-800 dark:text-gray-100 relative">
+      
+      {/* Title */}
+      <h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-4">
+        Complete Payment - {method}
+      </h2>
 
-            {/* Payment details form */}
-            <form onSubmit={handleSubmit}>
-              <label className="block mb-2 text-gray-700 dark:text-gray-300">Amount</label>
-              <input
-                type="number"
-                value={amount}
-                disabled
-                className="w-full rounded-lg bg-gray-200 dark:bg-gray-700 px-4 py-2 mb-4 text-gray-800 dark:text-gray-200"
-                style={{ border: '1px solid rgba(0, 0, 0, 0.3)', color:"gray" }}
-              />
-              {method.startsWith("Plisio") && (
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                  You’ll be redirected to Plisio checkout to complete your payment.
-                </p>
-              )}
+      {/* Payment Form */}
+      <form onSubmit={handleSubmit}>
+        <label className="block mb-2 text-gray-700 dark:text-gray-300">Amount</label>
+        <input
+          type="number"
+          value={amount}
+          disabled
+          className="w-full rounded-lg bg-gray-200 dark:bg-gray-700 px-4 py-2 mb-4 text-gray-800 dark:text-gray-200"
+          style={{ border: '1px solid rgba(0, 0, 0, 0.3)', color: "gray" }}
+        />
 
-              {method.includes("Stripe") && (
-                <>
-                  <label className="block mb-2 text-gray-700 dark:text-gray-300">Card Number</label>
-                  <input
-                    type="text"
-                    placeholder="4242 4242 4242 4242"
-                    className="w-full rounded-lg dark:bg-gray-700 px-4 py-2 mb-4"
-                  style={{ border: '1px solid rgba(0, 0, 0, 0.3)', color:"gray" }}
-                  />
-                </>
-              )}
+        {/* Plisio */}
+        {method.startsWith("Plisio") && (
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            You’ll be redirected to Plisio checkout to complete your payment.
+          </p>
+        )}
 
-              {method.includes("Payeer") && (
-                <>
-                  <label className="block mb-2 text-gray-700 dark:text-gray-300">Payeer Account</label>
-                  <input
-                    type="text"
-                    placeholder="Enter Payeer Wallet"
-                    className="w-full rounded-lg dark:bg-gray-700 px-4 py-2 mb-4"
-                  />
-                </>
-              )}
+        {/* Stripe */}
+        {method.includes("Stripe") && (
+          <>
+            <label className="block mb-2 text-gray-700 dark:text-gray-300">Card Number</label>
+            <input
+              type="text"
+              placeholder="4242 4242 4242 4242"
+              className="w-full rounded-lg dark:bg-gray-700 px-4 py-2 mb-4"
+              style={{ border: '1px solid rgba(0, 0, 0, 0.3)', color: "gray" }}
+            />
+          </>
+        )}
 
-              {method.includes("Crypto") && (
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                  A wallet address will be generated after confirming.
-                </p>
-              )}
+        {/* Payeer */}
+        {method.includes("Payeer") && (
+          <>
+            <label className="block mb-2 text-gray-700 dark:text-gray-300">Payeer Account</label>
+            <input
+              type="text"
+              placeholder="Enter Payeer Wallet"
+              className="w-full rounded-lg dark:bg-gray-700 px-4 py-2 mb-4"
+            />
+          </>
+        )}
 
-              {/* ✅ NowPayments */}
-              {method.includes("NowPayments") && (
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                  You’ll be redirected to NowPayments secure checkout.
-                </p>
-              )}
+        {/* Crypto */}
+        {method.includes("Crypto") && (
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            A wallet address will be generated after confirming.
+          </p>
+        )}
 
-              {/* ✅ ChangeNOW */}
-              {method.includes("ChangeNOW") && (
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                  You’ll be redirected to ChangeNOW to exchange and pay in crypto.
-                </p>
-              )}
+        {/* NowPayments */}
+        {method.includes("NowPayments") && (
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            You’ll be redirected to NowPayments secure checkout.
+          </p>
+        )}
 
-              {/* ✅ GataPay */}
-              {method.includes("GataPay") && (
-                <>
-                  <label className="block mb-2 text-gray-700 dark:text-gray-300">Phone Number</label>
-                  <input
-                    type="text"
-                    placeholder="Enter your phone linked to GataPay"
-                    className="w-full rounded-lg dark:bg-gray-700 px-4 py-2 mb-4"
-                  />
-                </>
-              )}
+        {/* ChangeNOW */}
+        {method.includes("ChangeNOW") && (
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            You’ll be redirected to ChangeNOW to exchange and pay in crypto.
+          </p>
+        )}
 
-              {/* ✅ HoodPay */}
-              {method.includes("HoodPay") && (
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                  You’ll be redirected to HoodPay (crypto & fiat payments) checkout.
-                </p>
-              )}
+        {/* GataPay */}
+        {method.includes("GataPay") && (
+          <>
+            <label className="block mb-2 text-gray-700 dark:text-gray-300">Phone Number</label>
+            <input
+              type="text"
+              placeholder="Enter your phone linked to GataPay"
+              className="w-full rounded-lg dark:bg-gray-700 px-4 py-2 mb-4"
+            />
+          </>
+        )}
 
+        {/* HoodPay */}
+        {method.includes("HoodPay") && (
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            You’ll be redirected to HoodPay (crypto & fiat payments) checkout.
+          </p>
+        )}
 
-              <div className="flex justify-end gap-4">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="px-4 py-2 bg-gray-300 dark:bg-gray-600 rounded-lg"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700"
-                >
-                  Confirm Payment
-                </button>
-              </div>
-            </form>
-          </div>
+        {/* Buttons */}
+        <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 mt-6">
+          <button
+            type="button"
+            onClick={() => setShowModal(false)}
+            className="w-full sm:w-auto px-4 py-2 bg-gray-300 dark:bg-gray-600 rounded-lg"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="w-full sm:w-auto px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700"
+          >
+            Confirm Payment
+          </button>
         </div>
-      )}
+      </form>
+    </div>
+  </div>
+)}
+
 
     </div>
   );

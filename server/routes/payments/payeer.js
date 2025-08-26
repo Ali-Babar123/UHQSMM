@@ -1,8 +1,9 @@
-// routes/paymentRoutes.js
-const express = require('express');
-const router = express.Router();
-const { createPayeerPayment } = require('../../controllers/payments/payeerController');
+const express = require("express");
+const { createPayment, payeerCallback } = require("../../controllers/payments/payeerController");
 
-router.post('/payeer', createPayeerPayment);
+const router = express.Router();
+
+router.post("/create", createPayment);
+router.post("/callback", payeerCallback);
 
 module.exports = router;
