@@ -53,7 +53,7 @@ const OtpInput = () => {
   return (
     <div className="otp-wrapper">
       <div className="otp-container">
-        <h2>Enter OTP sent to {email}</h2>
+        <h2>Enter OTP sent to {email} Please Check Your Email</h2>
         <div className="otp-inputs">
           {inputOtp.map((val, idx) => (
             <input

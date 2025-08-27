@@ -136,7 +136,7 @@ useEffect(() => {
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
             </svg>
-            <span className="text-sm md:text-base">Add Refund Request</span>
+            <span className="text-sm md:text-base">Add Refund</span>
           </button>
 
         </div>

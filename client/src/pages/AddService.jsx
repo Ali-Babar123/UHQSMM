@@ -17,16 +17,17 @@ const AddService = () => {
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main className="grow-0">
-          <div className="px-4  sm:px-6 lg:px-4 py-4 w-full max-w-9xl mx-auto">
-            <h1 className="text-gray-400 mb-1">Dasboard/Services</h1>
-
-            <div className="mb-4 sm:mb-0 flex items-center space-x-14">
-              <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-light">Services</h1>
-              <Datepicker align="left" />
-            </div>
-
-          </div>
-        </main>
+                 <div className="px-4 sm:px-6 lg:px-4 py-4 w-full max-w-9xl mx-auto">
+                   <h1 className="text-gray-400 mb-1">Dashboard / AddServices</h1>
+                   <div className="mb-4 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center space-x-0 sm:space-x-14">
+                     <h1 className="text-2xl md:text-4xl text-gray-800 dark:text-gray-100 font-extralight mb-4 sm:mb-0">
+                      Add Services
+                     </h1>
+                     <Datepicker align="left" />
+                   </div>
+                 </div>
+               </main>
+       
 
         <div className="bg-white p-16 my-8 mx-4 border-gray-200 border dark:bg-[rgba(37,33,57,1)]">
           <div>
@@ -41,9 +42,23 @@ const AddService = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <button className="w-md mt-6 py-3 border border-violet-600 text-violet-600 rounded-4xl dark:gradient-border hover:bg-violet-500 hover:text-white dark:hover:text-white dark:hover:bg-violet-700 cursor-pointer transition">
+              <button
+                className="
+    w-full sm:w-auto
+    mt-6 
+    px-6 py-2 sm:px-8 sm:py-3 
+    border border-violet-600 
+    text-violet-600 
+    rounded-3xl
+    dark:gradient-border 
+    hover:bg-violet-500 hover:text-white 
+    dark:hover:text-white dark:hover:bg-violet-700 
+    cursor-pointer transition
+  "
+              >
                 Send Request
               </button>
+
             </a>
 
           </div>

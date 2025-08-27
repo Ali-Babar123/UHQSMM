@@ -33,7 +33,7 @@ const ResetPassword = () => {
   return (
   <div className="reset-wrapper">
     <div className="reset-container">
-      <h2>Reset Password for {email}</h2>
+     
       <p>Please enter your new password below.</p>
       <form onSubmit={handleSubmit}>
         <div className="reset-inputs">
