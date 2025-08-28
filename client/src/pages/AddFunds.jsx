@@ -288,7 +288,7 @@ const AddFunds = () => {
                   }
                   setShowModal(true);
                 }}
-                className="lg:w-md w-full py-2 border border-violet-600 text-violet-600 rounded-4xl dark:gradient-border hover:bg-violet-500 hover:text-white dark:hover:text-white dark:hover:bg-violet-700 cursor-pointer transition"
+                className="lg:w-md w-full py-2 border border-violet-600 text-violet-600 rounded-3xl dark:gradient-border dark:hover:text-white dark:bg-violet-600 dark:text-white  cursor-pointer transition"
               >
                 Initiate Payment
               </button>
