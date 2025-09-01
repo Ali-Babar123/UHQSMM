@@ -1166,17 +1166,7 @@
 }
 
 /* Responsive for mobile (up to 768px) */
-@media (max-width: 768px) {
-  .home-container {
-    /* padding: 30px 20px 0px 20px; */
-  }
-
-  .home-container{
-      /* background-image: url('../assets/mobile.png'); */
-    /* background-repeat: no-repeat; */
-    /* background-position: 0px 30px; */
-  }
- 
+@media (max-width: 768px) { 
   .left h1 {
     font-size: 3rem;
     padding-left: 0px; 
