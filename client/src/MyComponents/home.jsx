@@ -307,8 +307,8 @@ const home = () => {
                         </p>
                     </div>
                 </div>
-                 <img src={Ball3} alt="" className='homeballs1'/>
-                       <img src={Ball4} alt=""   className='homeballs2'/>
+                 {/* <img src={Ball3} alt="" className='homeballs1'/>
+                       <img src={Ball4} alt=""   className='homeballs2'/> */}
                         {/* <img src={RedCorner} alt=""  className='redCorner'/> */}
                        {/* <img src={Ellipse25} alt="ellipse23" className='ellipse28' style={{"display": "block"}}/> */}
                         

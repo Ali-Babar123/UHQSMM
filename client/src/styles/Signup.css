@@ -31,6 +31,7 @@
   margin-bottom: 1.5rem;
   color: #f734e5;
   letter-spacing: 1px;
+  font-weight: 600;
   margin: 20px 0;
 }
 
@@ -116,16 +117,19 @@
 }
 /* Tablets and small desktops (1024px and below) */
 @media (max-width: 1024px) {
+  .signup-container{
+    min-height: 0vh;
+  }
   .boxes {
     width: 100% !important;
-    left: -150px !important;
-    height: 60vh;
+    left: -550px !important;
+    height: 50vh;
     z-index: -5;
     opacity: 0.9;
   }
 
   .ellipse24 {
-    height: 150vh;
+   display: none;
   }
 
   .signup-form h1 {
@@ -175,6 +179,13 @@
   .signin-link {
     font-size: 0.85rem;
   }
+   .boxes {
+    width: 100% !important;
+    left: -350px !important;
+    height: 60vh;
+    z-index: -5;
+    opacity: 0.9;
+  }
 }
 
 /* Extra small devices (480px and below) */
@@ -193,5 +204,13 @@
 
   .input-group1 .icon {
     margin-right: 0.5rem;
+  }
+
+  .boxes {
+    width: 100% !important;
+    left: -150px !important;
+    height: 60vh;
+    z-index: -5;
+    opacity: 0.9;
   }
 }

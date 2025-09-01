@@ -1,5 +1,3 @@
-
-
 /* Main container */
 .contact-container {
   display: flex;
@@ -28,7 +26,7 @@
   /* margin-bottom: 10px; */
 }
 
-.ellipse23{
+.ellipse23 {
   width: 100%;
   position: absolute;
   top: -650px !important;
@@ -36,21 +34,23 @@
   z-index: 0;
 
 }
-.boxes{
+
+.boxes {
   height: 100vh;
   position: absolute;
   top: -190px !important;
   left: -200px;
   bottom: 30px !important;
   width: 40% !important;
-   z-index: 0;
+  z-index: 0;
 }
-.red3{
-   width: 100%;
+
+.red3 {
+  width: 100%;
   height: 180vh;
   position: absolute;
   top: 160% !important;
-z-index: 0;
+  z-index: 0;
   opacity: 1;
   left: 0px !important;
   /* bottom: 0px !important; */
@@ -179,7 +179,7 @@ z-index: 0;
   margin-top: 0;
 }
 
-.contact-right .insta  {
+.contact-right .insta {
   position: absolute;
   top: 124px;
   right: -3px;
@@ -196,27 +196,32 @@ z-index: 0;
   width: 40px;
   height: 40px;
 }
-.contactballs1{
-    
-    right: 1220px;
-    position: absolute;
-    width: 35px;
-    height: 35px;
-    top: 320%;
+
+.contactballs1 {
+
+  right: 1220px;
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  top: 320%;
 }
 
-.contactballs2{
+.contactballs2 {
 
-    right: 1130px;
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    top: 340%;
+  right: 1130px;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 340%;
 
 }
 
 /* Tablet screens (≤ 1024px) */
 @media (max-width: 1024px) {
+
+  .red3{
+    display: none;
+  }
 
   .contact-left img {
     top: 60%;
@@ -249,7 +254,7 @@ z-index: 0;
   }
 
   .contact-right .insta {
-   top: -250px;
+    top: -250px;
     right: 3px;
     width: 28px;
     height: 28px;
@@ -265,7 +270,7 @@ z-index: 0;
 /* Small screens (≤ 480px) */
 @media (max-width: 480px) {
   .contact-container {
-     flex-direction: column;
+    flex-direction: column;
     align-items: flex-start;
     padding: 40px 60px;
     background-image: url('../assets/mobile.png');
@@ -277,43 +282,47 @@ z-index: 0;
     width: 92%;
 
   }
-  .ellipse23{
-  width: 100%;
-  position: absolute;
-  top: 0px !important;
-  right: 0px !important;
 
-}
-.boxes{
-  height: 100vh;
-  position: absolute;
-  top: -190px !important;
-  left: -200px;
-  bottom: 30px !important;
-  width: 40% !important;
-   z-index: 0;
-}
-  .contactballs1{
+  .ellipse23 {
+    width: 100%;
+    position: absolute;
+    top: 0px !important;
+    right: 0px !important;
+
+  }
+
+  .boxes {
+    height: 100vh;
+    position: absolute;
+    top: -190px !important;
+    left: -200px;
+    bottom: 30px !important;
+    width: 40% !important;
+    z-index: 0;
+  }
+
+  .contactballs1 {
 
     position: relative;
     left: 0;
     width: 25px;
     height: 25px;
     top: 790px;
-    
-}
 
-.contactballs2{
+  }
 
-    
+  .contactballs2 {
+
+
     position: relative;
     left: 15px;
     width: 20px;
     height: 20px;
     top: 910px;
 
-}
-   .boxes{
+  }
+
+  .boxes {
     position: absolute;
     top: 0;
     background-repeat: no-repeat;
@@ -384,12 +393,13 @@ z-index: 0;
   }
 
   .contact-container>img:last-of-type {
-        bottom: 360px;
-        width: 22px;
-        left: 315px;
-        height: 22px;
+    bottom: 360px;
+    width: 22px;
+    left: 315px;
+    height: 22px;
   }
-  .red3{
+
+  .red3 {
     position: absolute;
     top: 0px !important;
   }
@@ -397,16 +407,20 @@ z-index: 0;
 
 /* Responsive for tablets (768px - 1024px) */
 @media (max-width: 1024px) {
+  .contact-logo1{
+    margin-left: 40px;
+  }
   .contact-container {
-    flex-direction: column;
+    flex-direction: row;
     padding: 40px 30px;
+    min-height: 90px
   }
 
   .contact-left,
   .contact-right {
     max-width: 100%;
     transform: none;
-    text-align: center;
+    text-align: left;
   }
 
   .contact-left h1 {
@@ -425,7 +439,7 @@ z-index: 0;
 /* Responsive for mobile (up to 768px) */
 @media (max-width: 768px) {
   .contact-container {
-   padding: 130px 20px;
+    padding: 130px 20px;
   }
 
   .contact-left h1 {
@@ -448,6 +462,10 @@ z-index: 0;
 
 /* Optional: tiny screen support (up to 480px) */
 @media (max-width: 480px) {
+  .contact-container{
+    min-height: 0px;
+    flex-direction: column;
+  }
   .contact-left h1 {
     font-size: 2rem;
     font-weight: 900;
@@ -474,7 +492,7 @@ z-index: 0;
 }
 
 .contact-section h1 {
- font-size: 3.2rem;
+  font-size: 3.2rem;
   line-height: 1.3;
   color: #cccccc;
   margin-bottom: 40px;
@@ -482,7 +500,7 @@ z-index: 0;
 }
 
 .contact-section p {
-   font-size: 1.1rem;
+  font-size: 1.1rem;
   color: #666;
   margin-bottom: 80px;
   max-width: 1000px;
@@ -544,6 +562,7 @@ textarea:focus {
   border-image: linear-gradient(354.17deg, #7129FF 3.91%, #FD00E3 72.59%);
   border-image-slice: 1;
 }
+
 .contact-section .button {
   display: flex;
   gap: 15px;
@@ -565,6 +584,7 @@ textarea:focus {
   cursor: pointer;
   transition: transform 0.3s ease;
 }
+
 @media (max-width: 1024px) {
   .contact-section {
     padding: 50px 30px;
@@ -612,12 +632,15 @@ textarea:focus {
     font-size: 1.25rem;
     font-weight: 800;
   }
-   .form-group label{
+
+  .form-group label {
     font-size: 0.75rem;
-   }
-   .contact-section .button {
+  }
+
+  .contact-section .button {
     padding: 40px 40px 0px;
-   }
+  }
+
   .contact-section p {
     font-size: 0.875rem;
   }
@@ -634,7 +657,8 @@ textarea:focus {
     font-size: 0.75rem;
     width: 100%;
   }
-  .form-row{
-     gap: 20px;
+
+  .form-row {
+    gap: 20px;
   }
 }

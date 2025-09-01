@@ -51,9 +51,9 @@ const Login = () => {
     <>
       <div className="login-wrapper">
         <div className="login-container">
-          <div className="logo2">
+          {/* <div className="logo2">
             <img src={Logo} alt="Logo" />
-          </div>
+          </div> */}
           <h1>Login</h1>
           <p>Welcome back! Please log in to access your account.</p>
 
@@ -102,8 +102,8 @@ const Login = () => {
 
       <img src={Boxes} alt="boxes" className="boxes" style={{ position: 'absolute', top: 0, width: '190px', zIndex: 0 }} />
       <img src={Ellipse25} alt="ellipse24" className="ellipse24" />
-      <img src={Ball3} alt="" className="loginballs1" />
-      <img src={Ball4} alt="" className="loginballs2" />
+      {/* <img src={Ball3} alt="" className="loginballs1" />
+      <img src={Ball4} alt="" className="loginballs2" /> */}
     </>
   );
 };

@@ -347,7 +347,7 @@
 @media (min-width: 1024px) {
   .login-wrapper {
     padding: 40px 80px 90px;
-    height: 100vh;
+   height: 100vh;
   }
 
   .login-container {
@@ -393,6 +393,10 @@
   }
 }
 @media (max-width: 480) {
+  .login-wrapper {
+    padding: 40px 80px 90px;
+    height: 100vh;
+  }
  .boxes1{
     position: absolute;
     top: 0;
@@ -400,3 +404,4 @@
     z-index: 0;
   }
 }
+

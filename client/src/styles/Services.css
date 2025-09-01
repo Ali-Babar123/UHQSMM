@@ -198,6 +198,17 @@
 /* Tablet screens (≤ 1024px) */
 @media (max-width: 1024px) {
 
+      .services-container{
+    background-image: url('../assets/desktop.png');
+    background-position: 30px 30px;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .red2{
+    display: none;
+  }
+
   .services-left img {
     top: 60%;
     left: -45px;
@@ -368,24 +379,31 @@
 
 /* Responsive for tablets (768px - 1024px) */
 @media (max-width: 1024px) {
+  .services-logo1{
+    margin-left: 60px;
+  }
   .services-container {
-    flex-direction: column;
-    padding: 40px 30px;
+        flex-direction: row;
+        padding: 40px 30px;
+        min-height: 0px;
   }
 
   .services-left,
   .services-right {
     max-width: 100%;
     transform: none;
-    text-align: center;
+    text-align: left;
   }
 
   .services-left h1 {
     font-size: 2.5rem;
+    /* margin-top: 160px; */
   }
 
   .services-left p {
     font-size: 1rem;
+    max-width: 1000px;
+    
   }
 
   .sercices-right img {
@@ -418,14 +436,20 @@
 
 /* Optional: tiny screen support (up to 480px) */
 @media (max-width: 480px) {
+
+  .services-container{
+    flex-direction: column;
+    min-height: 90vh;
+  }
   .services-left h1 {
     font-size: 2rem;
     font-weight: 900;
+    margin-top: 0px;
   }
 
   .services-left p {
     font-size: 0.9rem;
-    /* max-width: 80%; */
+    max-width: -1000px;
     /* margin-left: px; */
   }
 

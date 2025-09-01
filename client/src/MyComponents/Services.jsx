@@ -134,8 +134,8 @@ const Services = () => {
                           </div>
                       </div>
                   </div>
-                         <img src={Ball3} alt="" className='ball3'/>
-       <img src={Ball4} alt=""   className='ball4'/>
+                         {/* <img src={Ball3} alt="" className='ball3'/>
+       <img src={Ball4} alt=""   className='ball4'/> */}
              <img src={Red} alt="red" className='red2'/>
        
     </div>

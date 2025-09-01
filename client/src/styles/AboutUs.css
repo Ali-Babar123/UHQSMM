@@ -212,7 +212,10 @@
 
 /* Tablet screens (≤ 1024px) */
 @media (max-width: 1024px) {
-
+ 
+  .red1{
+    display: none;
+  }
   .about-left img {
     top: 60%;
     left: -45px;
@@ -366,20 +369,27 @@
 
 /* Responsive for tablets (768px - 1024px) */
 @media (max-width: 1024px) {
+
+  
   .about-container {
-    flex-direction: column;
-    padding: 40px 30px;
+        /* flex-direction: row; */
+        padding: 40px 30px;
+        min-height: 0px;
+  }
+  .logo1{
+    margin-left: 60px;
   }
 
   .about-left,
   .about-right {
     max-width: 100%;
     transform: none;
-    text-align: center;
+    text-align: left;
   }
 
   .about-left h1 {
     font-size: 2.5rem;
+    margin-top: 90px;
   }
 
   .about-left p {
@@ -416,6 +426,7 @@
   .about-left h1 {
     font-size: 2rem;
     font-weight: 900;
+    margin-top: 0px;
   }
 
   .about-left p {
@@ -425,6 +436,9 @@
   .about-right img {
     width: 100%;
     height: 100%;
+  }
+   .logo1{
+    margin-left: 40px;
   }
 }
 
@@ -717,8 +731,8 @@
   }
 
   .facebook-img {
-    left: 380px;
-    top: 105%;
+    left: 220px;
+    top: 140%;
     width: 15px;
     height: 25px;
   }

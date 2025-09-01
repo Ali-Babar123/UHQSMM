@@ -125,6 +125,9 @@
     gap: 20px;
     padding: 20px;
   }
+   .nav {
+  margin-left: 0px; 
+}
 
   .ellipses {
     transform: none;
@@ -135,38 +138,11 @@
   .register {
     margin-top: 15px;
   }
+ 
 }
 
 /* Responsive for mobile */
-@media (max-width: 768px) {
-  .nav ul {
-    flex-direction: column;
-    gap: 15px;
-    align-items: center;
-  }
 
-  .container {
-    padding: 20px 15px;
-    text-align: center;
-  }
-
-  .logo1 img {
-    height: 20px;
-  }
-
-  .ellipse img,
-  .ellipse1 img {
-    height: 35px;
-    /* right: 90px; */
-    /* align-items: center; */
-    justify-content: center;
-  }
-
-  .register button {
-    width: 100%;
-    max-width: 220px;
-  }
-}
 
 /* Extra small screens (phones) */
 @media (max-width: 480px) {
@@ -195,32 +171,9 @@
 }
 
 /* Show hamburger on small screens */
-@media (max-width: 768px) {
-  .hamburger {
-    display: block;
-    position: absolute;
-    top: 25px;
-    right: 25px;
-  }
 
-  .nav {
-    display: none;
-    width: 100%;
-    text-align: center;
-  }
 
-  .nav.active {
-    display: block;
-  }
 
-  .nav ul {
-    flex-direction: column;
-    gap: 10px;
-    padding: 20px 0;
-    border-radius: 10px;
-    margin-top: 15px;
-  }
-}
 /* Add these new styles at the bottom of your existing CSS */
 @media (max-width: 480px) {
   .container {
@@ -278,10 +231,51 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    transform: translateX(70px);
+    /* transform: translateX(70px); */
   }
   
   .desktop-register {
     display: block;
+  }
+}
+
+@media (max-width: 760px) {
+  .hamburger {
+    display: block;
+    position: absolute;
+    top: 25px;
+    right: 25px;
+  }
+
+  .nav {
+    display: none;
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers all items */
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .nav ul {
+    flex-direction: column;
+    align-items: center; /* Keeps middle links + ellipsis centered */
+    gap: 10px;
+    padding: 20px 0;
+    border-radius: 10px;
+    margin-top: 15px;
+  }
+
+ 
+
+  /* Ensure register button stays centered inside hamburger */
+  .desktop-register button {
+    display: block;
+    margin: 10px auto; /* centers horizontally */
+    width: auto; /* don’t stretch */
   }
 }

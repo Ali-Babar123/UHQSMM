@@ -76,8 +76,8 @@ const Contactus = () => {
           </div>
         </div>
       </div>
- <img src={Ball3} alt="" className='contactballs1'/>
-       <img src={Ball4} alt=""   className='contactballs2'/>
+ {/* <img src={Ball3} alt="" className='contactballs1'/>
+       <img src={Ball4} alt=""   className='contactballs2'/> */}
              <img src={Red} alt="red" className='red3'/>
        
     </div>

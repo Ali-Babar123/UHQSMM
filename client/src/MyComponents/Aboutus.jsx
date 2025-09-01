@@ -81,8 +81,8 @@ const Aboutus = () => {
         </div>
 
       </div>
-       <img src={Ball2} alt="" className='aboutballs1'/>
-       <img src={Ball3} alt=""   className='aboutballs2'/>
+       {/* <img src={Ball2} alt="" className='aboutballs1'/>
+       <img src={Ball3} alt=""   className='aboutballs2'/> */}
     </div>
   )
 }
