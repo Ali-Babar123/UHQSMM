@@ -41,39 +41,46 @@ import Ellipse25 from '../assets/Ellipse25.png'
 import Red from '../assets/Red.png'
 import BlueHexa from '../assets/BlueHexa.png'
 import RedCorner from '../assets/RedCorner.png'
+import { Link } from 'react-router-dom'
 const home = () => {
     return (
-        <> 
-       <div className="logo1">
-               <img src={Logo} alt="logo" />
-             </div>
+        <>
+            <div className="logo1">
+                <img src={Logo} alt="logo" />
+            </div>
             <div className='home-container'>
                 <div className="left">
-                    <h1>Boost Your Social <br /> Media Presence</h1>
+                    <h1>Boost Your Social Media Presence</h1>
                     <p>
                         Take your social media to the next level with proven growth tools, authentic and powerful engagement, and an online presence that sets you apart from the competition and drives results.
                     </p>
                     <img src={Linkedin2} alt="linkedin2" />
                     <div className="button">
-                    <div>
-                        <button className='create-account1'>Get Started</button>    
-                    </div>
-                        <div className="gradient-button-wrapper1">
-                            <button className="get-discount1">View Services</button>
+                        <Link to='/login'>
+                        <div>
+                            <button className='create-account1'>Get Started</button>
                         </div>
+                        </Link>
+                        <Link to='/services'>  
+                        <div className="gradient-button-wrapper1">
+                                                      
+                            <button className="get-discount1">View Services</button>
+                                                   
+                            </div>
+                            </Link> 
                     </div>
-                
+
 
                 </div>
                 <div className="right">
-                    
+
                     <img src={HeroImage} alt="heroImage" />
-                    <img src={Instagram2} alt="instagram" className='insta'/>
+                    <img src={Instagram2} alt="instagram" className='insta' />
                 </div>
                 <img src={Snap2} alt="snap2" />
-          </div >
-          <img src={Boxes} alt="boxes" className='boxes' style={{position: 'absolute', zIndex: 0}}/>
-          <img src={Ellipse25} alt="ellipse23" className='ellipse23' style={{"display": "block"}}/>
+            </div >
+            <img src={Boxes} alt="boxes" className='boxes' style={{ position: 'absolute', zIndex: 0 }} />
+            <img src={Ellipse25} alt="ellipse23" className='ellipse23' style={{ "display": "block" }} />
             <div className="section2-container">
                 <div className="section2">
                     <div className="heading1">
@@ -106,12 +113,12 @@ const home = () => {
             </div>
 
             <div className="section4">
-                <img src={Red} alt="red" className='red'/>
+                <img src={Red} alt="red" className='red' />
                 <button className="section4">How its Work</button>
                 <h1 className="section4 heading-container">
                     Understanding How Our Powerful SMM System Works for You
                 </h1>
-                
+
                 <div className="card-container">
                     <div className="cards">
                         <img src={Section4} alt="section4" />
@@ -141,14 +148,14 @@ const home = () => {
                         </p>
                     </div>
                 </div>
-                
+
             </div>
             <div className="section5">
                 <button className="section5">Why Choose Us</button>
                 <h1 className="section5">
                     The Benefits of Choosing Our  Advanced SMM Panel Services
-                    <img src={Ball2} alt="ball2"  className='ball2'/>
-                <img  src={Dots} alt="dots" className='dots' />
+                    <img src={Ball2} alt="ball2" className='ball2' />
+                    <img src={Dots} alt="dots" className='dots' />
                 </h1>
 
                 <div className="card-container2">
@@ -189,9 +196,11 @@ const home = () => {
                         Discover unparalleled convenience and excellence in social media marketing with SMM <br /> VIP, the industry's foremost SMM panel for resellers. Our platform offers resellers a <br /> seamless experience, providing access to premium services and tools tailored to <br />  elevate your SMM ventures.
                     </p>
                     <div className="button">
-                    <div>
-                        <button className='create-account'>Create Account</button>    
-                    </div>
+                        <Link to='/signup'>
+                        <div>
+                            <button className='create-account' style={{zIndex: 1, cursor: 'pointer'}}>Create Account</button>
+                        </div>
+                        </Link>
                         <div className="gradient-button-wrapper">
                             <button className="get-discount">Get Discounts</button>
                         </div>
@@ -230,7 +239,7 @@ const home = () => {
                     </div>
 
                 </div>
-                        <img src={BlueHexa} alt="" className='layer'/>
+                <img src={BlueHexa} alt="" className='layer' />
             </div>
             <div className="section7">
                 <h2 className='head'>Our Platforms</h2>
@@ -307,12 +316,12 @@ const home = () => {
                         </p>
                     </div>
                 </div>
-                 {/* <img src={Ball3} alt="" className='homeballs1'/>
+                {/* <img src={Ball3} alt="" className='homeballs1'/>
                        <img src={Ball4} alt=""   className='homeballs2'/> */}
-                        {/* <img src={RedCorner} alt=""  className='redCorner'/> */}
-                       {/* <img src={Ellipse25} alt="ellipse23" className='ellipse28' style={{"display": "block"}}/> */}
-                        
-                        
+                {/* <img src={RedCorner} alt=""  className='redCorner'/> */}
+                {/* <img src={Ellipse25} alt="ellipse23" className='ellipse28' style={{"display": "block"}}/> */}
+
+
             </div>
 
         </>
